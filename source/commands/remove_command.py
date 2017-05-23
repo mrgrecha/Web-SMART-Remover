@@ -52,6 +52,7 @@ class RFCommand(Command):
     @interactive
     def delete_files(self, list_of_files, my_trash):
         """Delete a list of files with checking for folders"""
+        list_for_return = []
         try:
             checked_list = source.src.verification.check_for_files_and_links(list_of_files)
             length = len(checked_list)
@@ -92,8 +93,7 @@ class RDCommand(Command):
         return 'Remove Directories'
 
     def execute(self, list_of_dirs):
-        self.delete_dir(list_of_dirs, self.trash)
-        return self.dirs_to_return
+        return self.delete_dir(list_of_dirs, self.trash)
 
     def cancel(self, list_of_files):
         self.trash.rootLogger.info('Cancel for rdc')
@@ -107,9 +107,7 @@ class RDCommand(Command):
             source.src.directory.Folder.make_objects(arr_dirs[index], each_dir)
             os.rename(each_dir, str(arr_dirs[index].hash))
             shutil.move(str(arr_dirs[index].hash), my_trash.path_of_trash)
-            my_trash.arr_json_files.append(arr_dirs[index].__dict__)
-        for ind in xrange(0, length):
-            self.dirs_to_return.append(arr_dirs[ind].hash)
+        return  arr_dirs
 
     @interactive
     def delete_dir(self, list_of_dirs, my_trash):
@@ -121,7 +119,7 @@ class RDCommand(Command):
         try:
             checked_list_of_dirs = source.src.verification.check_for_dir(list_of_dirs, my_trash.path_of_trash)
             length = len(checked_list_of_dirs)
-            self.real_delete_dir(checked_list_of_dirs, length, my_trash)
+            list_for_return = self.real_delete_dir(checked_list_of_dirs, length, my_trash)
             for each_dir in checked_list_of_dirs:
                 my_trash.rootLogger.info('Removing directory ' + each_dir + ' to trash')
 
@@ -141,7 +139,7 @@ class RDCommand(Command):
             logging.error('Error:' + str(e) + '. It is a trash folder.')
             sys.exit(4)
 
-        source.src.serialization.push_json(my_trash.arr_json_files, my_trash.database)
+        return list_for_return
 
 class RRCommand(Command):
 

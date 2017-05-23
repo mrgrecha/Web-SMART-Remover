@@ -1,5 +1,5 @@
 def parallel_dividing(elems, force_dividing=False):
-    max_number_of_elements_for_process = 20
+    max_number_of_elements_for_process = 5
     len_of_list_of_elems = len(elems)
     number_of_processes = len_of_list_of_elems / max_number_of_elements_for_process + 1
     processes = []

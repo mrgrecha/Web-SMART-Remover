@@ -8,7 +8,6 @@ import source.src.my_exceptions
 import source.src.serialization
 import source.src.verification
 import bin_command
-import command_object
 import source.src.file_object
 from command import Command
 from source.src.dry_run import dry_run
@@ -24,8 +23,8 @@ class RFCommand(Command):
         self.files_to_return = []
 
     def execute(self, list_of_files):
-        self.delete_files(list_of_files, self.trash)
-        return self.files_to_return
+        return self.delete_files(list_of_files, self.trash)
+       # return self.files_to_return
 
     def cancel(self, list_of_files):
         self.trash.rootLogger.info('Cancel for rfc')
@@ -44,9 +43,11 @@ class RFCommand(Command):
             arr_files[index].make_object(each_file)
             os.rename(each_file, str(arr_files[index].hash))
             shutil.move(arr_files[index].hash, my_trash.path_of_trash)
-            my_trash.arr_json_files.append(arr_files[index].__dict__)
-            for ind in xrange(0, length):
-                self.files_to_return.append(arr_files[ind].hash)
+            #my_trash.arr_json_files.append(arr_files[index].__dict__)
+
+            # for ind in xrange(0, length):
+            #     self.files_to_return.append(arr_files[ind].hash)
+        return arr_files
 
     @interactive
     def delete_files(self, list_of_files, my_trash):
@@ -54,7 +55,8 @@ class RFCommand(Command):
         try:
             checked_list = source.src.verification.check_for_files_and_links(list_of_files)
             length = len(checked_list)
-            self.real_delete(checked_list, length, my_trash)
+            my_trash.rootLogger.info(checked_list)
+            list_for_return = self.real_delete(checked_list, length, my_trash)
             for removing_file in checked_list:
                 my_trash.rootLogger.info('Removing ' + removing_file + ' to trash')
 
@@ -73,7 +75,8 @@ class RFCommand(Command):
         except OSError as e:
             logging.error('Error' + str(e))
 
-        source.src.serialization.push_json(my_trash.arr_json_files, my_trash.database)
+       # source.src.serialization.push_json(my_trash.arr_json_files, my_trash.database)
+        return list_for_return
 
 
 class RDCommand(Command):

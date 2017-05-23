@@ -20,7 +20,7 @@ class Trash(object):
 
     __metaclass__ = singleton.Singleton
 
-    def __init__(self, path_of_config):
+    def __init__(self, path_of_config=''):
         if os.path.exists(path_of_config):
             config = ConfigParser.RawConfigParser()
             config.read(path_of_config)
@@ -121,9 +121,15 @@ class Trash(object):
             silentHandler.setLevel(logging.CRITICAL)
             self.rootLogger.addHandler(silentHandler)
         else:
-            consoleHandler = logging.StreamHandler()
-            consoleHandler.setLevel(logging.INFO)
-            self.rootLogger.addHandler(consoleHandler)
+            log_handler = logging.StreamHandler()
+            log_handler.setFormatter(
+                logging.Formatter('[%(levelname)s] %(asctime)s (%(processName)-10s) %(message)s')
+            )
+            logger = logging.getLogger()
+            logger.handlers = []
+            logger.addHandler(log_handler)
+            logger.setLevel(logging.DEBUG)
+            self.rootLogger.addHandler(log_handler)
 
     def full_show(self):
         """

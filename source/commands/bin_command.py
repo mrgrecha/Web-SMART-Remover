@@ -26,8 +26,7 @@ class RecCommand(Command):
         :param list_of_files:
         :return:
         """
-        self.recover(list_of_files, self.trash)
-        return self.files_to_return
+        return self.recover(list_of_files, self.trash)
 
     def cancel(self, list_of_files):
         """
@@ -59,8 +58,8 @@ class RecCommand(Command):
         :return:
         """
         os.renames(path_of_file, each_json_file['path'])
-        my_trash.arr_json_files.remove(each_json_file)
-        self.files_to_return.append(each_json_file['path'])
+        return each_json_file
+       # self.files_to_return.append(each_json_file['path'])
 
     @dry_run
     def soft_recover(self, path_of_file, each_json_file, my_trash):
@@ -76,7 +75,7 @@ class RecCommand(Command):
         answer.ask_yes_or_no()
         if answer.state == 'yes':
             os.rename(path_of_file, each_json_file['path'])
-            my_trash.arr_json_files.remove(each_json_file)
+            return each_json_file
         else:
             pass
         self.files_to_return.append(each_json_file['path'])
@@ -90,7 +89,7 @@ class RecCommand(Command):
         :return:
         """
         os.rename(os.path.join(my_trash.path_of_trash, each_json_file['hash']), each_json_file['path'])
-        my_trash.arr_json_files.remove(each_json_file)
+        return each_json_file
 
     @interactive
     def recover(self, list_of_files, my_trash):
@@ -101,29 +100,30 @@ class RecCommand(Command):
         :return:
         """
         temp_list = []
+        list_for_recover = []
         for each_file in list_of_files:
             for each_json_file in my_trash.arr_json_files:
                 if each_file == each_json_file['hash']:
                     path_of_file = os.path.join(my_trash.path_of_trash, str(each_json_file['hash']))
                     if my_trash.force:
                         try:
-                            self.force_recover(path_of_file, each_json_file, my_trash)
+                            list_for_recover.append(self.force_recover(path_of_file, each_json_file, my_trash))
                             my_trash.rootLogger.info('Recovering ' + each_json_file['name'] + ' from bin')
                         except OSError as e:
                             my_trash.rootLogger.error('Error: ', e)
                     else:
                         try:
                             if os.path.exists(each_json_file['path']):
-                                self.soft_recover(path_of_file, each_json_file, my_trash)
+                                list_for_recover.append(self.soft_recover(path_of_file, each_json_file, my_trash))
                                 logging.info('Recovering ' + each_json_file['name'] + ' from bin')
                             else:
-                                self.simple_recover(each_json_file, my_trash)
+                                list_for_recover.append(self.simple_recover(each_json_file, my_trash))
                                 logging.info('Recovering ' + each_json_file['name'] + ' from bin')
                                 self.files_to_return.append(each_json_file['path'])
                         except OSError as e:
                             logging.error('Error: ', e)
 
-        source.src.serialization.push_json(my_trash.arr_json_files, my_trash.database)
+        return list_for_recover
 
 
 class DFTCommand(Command):
@@ -140,8 +140,7 @@ class DFTCommand(Command):
         :param list_of_files: Files to delete
         :return:
         """
-        self.remove_from_trash(list_of_files, self.trash)
-        return self.files_to_return
+        return  self.remove_from_trash(list_of_files, self.trash)
 
     def cancel(self, list_of_files):
         """
@@ -149,7 +148,7 @@ class DFTCommand(Command):
         :param list_of_files:
         :return:
         """
-        self.trash.rootLogger.info('Delete from trash can not be undo')
+        self.trash.rootLogger.info("Delete from trash can not be undo")
 
     @dry_run
     def real_remove_from_trash(self, list_of_files, my_trash):
@@ -159,6 +158,7 @@ class DFTCommand(Command):
         :param my_trash: the instance of trash
         :return:
         """
+        result_list = []
         for path in list_of_files:
             for index, each_dict in enumerate(my_trash.arr_json_files):
                 if each_dict['hash'] == path:
@@ -168,7 +168,10 @@ class DFTCommand(Command):
                         os.remove(os.path.join(my_trash.path_of_trash, str(each_dict['hash'])))
                     self.files_to_return.append([my_trash.arr_json_files[index]['name']] )
                     my_trash.rootLogger.info('Removing from trash %s' % my_trash.arr_json_files[index]['name'])
-                    my_trash.arr_json_files.remove(my_trash.arr_json_files[index])
+                    result_list.append(my_trash.arr_json_files[index])
+
+        return result_list
+
     @interactive
     def remove_from_trash(self, list_of_files, my_trash):
         """
@@ -178,8 +181,9 @@ class DFTCommand(Command):
         """
         count = 0
         length = len(list_of_files)
-        self.real_remove_from_trash(list_of_files, my_trash)
+        return_list = self.real_remove_from_trash(list_of_files, my_trash)
 
-        source.src.serialization.push_json(my_trash.arr_json_files, my_trash.database)
         if length == count:
             my_trash.rootLogger.info('There are no such files')
+
+        return return_list

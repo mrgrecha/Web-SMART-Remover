@@ -1,0 +1,6 @@
+*.pyc
+.idea/
+db.sqlite3
+env_for_lab/
+node_modules/
+source/log.log

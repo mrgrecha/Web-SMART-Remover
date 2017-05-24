@@ -32,3 +32,6 @@ INFO:root:Removing ./src/trash.py to trash
 INFO:root:Removing ./src/user_input.py to trash
 INFO:root:Removing ./src/verification.py to trash
 INFO:root:Removing ./undo.py to trash
+ERROR:root:Error with database. Database is cleared.[Errno 2] No such file or directory: '/Users/Dima/.DB.json'
+ERROR:root:Error with database. Database is cleared.[Errno 2] No such file or directory: '/Users/Dima/.DB.json'
+ERROR:root:Error with database. Database is cleared.Extra data: line 153 column 5 - line 163 column 2 (char 5055 - 5385)

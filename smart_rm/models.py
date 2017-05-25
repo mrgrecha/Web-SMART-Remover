@@ -11,13 +11,13 @@ class Task(models.Model):
     pass
 
 class File(models.Model):
-    path = models.FilePathField
+    path = models.FilePathField()
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=50)
     hash_of_file = models.CharField(max_length=40)
-    is_in_bin = models.BooleanField
-    size = models.BigIntegerField
-    time = models.BigIntegerField
+    is_in_bin = models.BooleanField()
+    size = models.BigIntegerField()
+    time = models.BigIntegerField()
 
 
 #             self.database = os.path.expanduser('~/.DB.json')

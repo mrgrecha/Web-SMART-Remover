@@ -1,6 +1,22 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.shortcuts import render
 
-# Create your views here.
+def delete(request):
+    return render(request, 'smart_rm/delete.html')
+
+def show(request):
+    return render(request, 'smart_rm/show.html')
+
+def add(request):
+    return render(request, 'smart_rm/add.html')
+
+def tasks(request):
+    return render(request, 'smart_rm/tasks.html')
+
+def settings(request):
+    return render(request, 'smart_rm/settings.html')
+
+def history(request):
+    return render(request, 'smart_rm/history.html')
+
+def logs(request):
+    return render(request, 'smart_rm/logs.html')

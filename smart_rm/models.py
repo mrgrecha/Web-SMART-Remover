@@ -3,8 +3,14 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Trash_bin(models.Model):
-    path_of_config = models.FilePathField
-    #TODO add other fields?
+    path_of_config = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
+    path_of_trash = models.CharField(max_length=100)
+    path_of_database = models.CharField(max_length=100)
+    dried = models.BooleanField()
+    silent = models.BooleanField()
+    size = models.BigIntegerField()
+    time = models.BigIntegerField()
 
 
 class Task(models.Model):

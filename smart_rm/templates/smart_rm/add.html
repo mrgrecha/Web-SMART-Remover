@@ -1,5 +1,11 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<h1>Add</h1>
+    <div>
+        <form method="post" action="" > {% csrf_token %}
+       {{add_form.as_p}}
+            <button type="submit">Add </button>
+        </form>
+    </div>
 {% endblock %}
+

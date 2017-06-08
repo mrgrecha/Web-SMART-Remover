@@ -2,9 +2,49 @@
 
 {% block content %}
     <div>
-        <form method="post" action="" > {% csrf_token %}
-       {{add_form.as_p}}
-            <button type="submit">Add </button>
+        <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
+            <div class="container">
+                <div class="form-group">
+                    <label>Path of trash</label>
+                    {{add_form.path_of_trash}}
+                </div>
+
+                <div>
+                    <label>Name of trash</label>
+                    {{add_form.name}}
+                </div>
+
+
+                <div>
+                    <label>Path of database</label>
+                    {{add_form.path_of_database}}
+                </div>
+
+                <div>
+                    <label>Path of config</label>
+                    {{add_form.path_of_config}}
+                </div>
+
+                <div>
+                    <label>Silent</label>
+                    {{add_form.silent}}
+                    <label>Dry Run</label>
+                    {{add_form.dried}}
+                </div>
+
+                <div>
+                    <label>Maximal size of trash</label>
+                    {{add_form.size}}
+                </div>
+
+                <div>
+                    <label>Maximal time of trash</label>
+                    {{add_form.time}}
+                </div>
+            </div>
+
+                <button class="btn btn-group" type="submit">Add </button>
+
         </form>
     </div>
 {% endblock %}

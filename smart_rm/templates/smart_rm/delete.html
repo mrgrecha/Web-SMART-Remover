@@ -2,7 +2,48 @@
 
 {% block content %}
 <h1>Delete</h1>
-<div id="jstree_demo_div"></div>
-<script src="tree.js"></script>
-<script src="../../static/css/dist/jstree.min.js"></script>
+<div class="container">
+    <div class="row col-lg-offset-12">
+        <button class="btn btn-danger" id="delete_button">Delete them!</button>
+    </div>
+</div>
+<div id="container-tree">
+
+</div>
+<script>
+$('#container-tree').jstree({
+    "plugins": ["wholerow", "state","json_data"],
+//    'core' : {
+//        "animation": 0,
+//        "check_callback": true,
+//        "themes": {"stripes": true},
+//        'data': {
+//            'url': function (node) {
+//                return node.id === '#' ?
+//                    'ajax_roots.json' :
+//                    'ajax_children.json';
+//            },
+//            'data': function (node) {
+//                return {'id': node.id};
+//            }
+//
+//    }
+'core' : {
+    'data': {
+        "url": "get_info",
+        "data": function (node) {
+            return {"id": node.id, "text" : node.text};
+        }
+    }
+}
+});
+
+$('#delete_button').on('click', function (event) {
+    event.preventDefault();
+    var selectedElmsIds = $('#container-tree').jstree("get_selected");
+    console.log(selectedElmsIds);
+
+});
+
+</script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endblock %}

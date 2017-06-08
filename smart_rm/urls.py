@@ -6,6 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
+    url(r'^$', views.delete, name='delete'),
     url(r'^delete$', views.delete, name='delete'),
     url(r'^tasks$', views.tasks, name='tasks'),
     url(r'^show$', views.show, name='show'),
@@ -13,4 +14,5 @@ urlpatterns = [
     url(r'^add$', views.add, name='add'),
     url(r'^settings$', views.settings, name='settings'),
     url(r'^logs$', views.logs, name='logs'),
+    url(r'get_info', views.get_info_for_file_system)
 ]

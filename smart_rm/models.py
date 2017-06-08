@@ -12,6 +12,8 @@ class Trash_bin(models.Model):
     size = models.BigIntegerField()
     time = models.BigIntegerField()
 
+    def __str__(self):
+        return self.name
 
 class Task(models.Model):
     pass

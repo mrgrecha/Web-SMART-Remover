@@ -1,45 +1,56 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>SMART RM</title>
-    <link rel="stylesheet" href="../../static/css/base.css">
-    <link rel="stylesheet" href="../../static/css/history.css">
-    <link rel="stylesheet" href="../../static/css/delete.css">
-    <link rel="stylesheet" href="../../static/css/add.css">
-    <link rel="stylesheet" href="../../static/css/dist/themes/default/style.min.css" />
-    <h1 class="header">Smart RM</h1>
-</head>
-<body>
-    <nav class="navbar-top">
-        <ul class="nb-top">
-            <li class="li-nb-top"><a class="li-nb-top-a" href="delete">Delete</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="show">Show</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="tasks">List of tasks</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="logs">Logs</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="settings">Settings</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="add">Add</a></li>
-            <li class="li-nb-top"><a class="li-nb-top-a" href="history">History</a></li>
-        </ul>
-    </nav>
 
-{% block navbar-left %}
-    <ul class="nb-top-2">
-        {% for name in name_list %}
-      <li class="li-nb-top-2"><a class="li-nb-top-2-a" href="trash-bin-1">{{name}}</a></li>
-    {% endfor %}</ul>
-{% endblock %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>SMART RM</title>
+        <link rel="stylesheet" href="../../static/css/base.css">
+        <link rel="stylesheet" href="../../static/css/history.css">
+        <link rel="stylesheet" href="../../static/css/delete.css">
+        <link rel="stylesheet" href="../../static/css/add.css">
+        <link rel="stylesheet" href="../../static/css/dist/themes/default/style.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
+       <div class="page-header">
+            <h1>Smart RM</h1>
+       </div>
+    </head>
+
+<body>
+    <div class="general-container">
+        <nav class="navbar navbar-inverse">
+            <ul class="nb-top">
+                <li class="li-nb-top"><a class="li-nb-top-a" href="delete">Delete</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="show">Show</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="tasks">List of tasks</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="logs">Logs</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="settings">Settings</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="add">Add</a></li>
+                <li class="li-nb-top"><a class="li-nb-top-a" href="history">History</a></li>
+            </ul>
+        </nav>
+
+        {% block navbar-left %}
+            <nav class="navbar navbar-inverse">
+                <ul class="nb-top-2">
+                {% for name in name_list %}
+                    <li class="li-nb-top-2"><a class="li-nb-top-2-a" href="trash-bin-1">{{name}}</a></li>
+                {% endfor %}</ul>
+        {% endblock %}
+            </nav>
 
     
     {% block content %}
     {% endblock %}
+
+    </div>
 </body>
 
-<!-- Bootstrap -->
-<script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
 
 <!-- jQuery -->
-<script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}" type="text/javascript"></script>
 </html>
 

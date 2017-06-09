@@ -13,21 +13,6 @@
 <script>
 $('#container-tree').jstree({
     "plugins": ["wholerow", "state","json_data"],
-//    'core' : {
-//        "animation": 0,
-//        "check_callback": true,
-//        "themes": {"stripes": true},
-//        'data': {
-//            'url': function (node) {
-//                return node.id === '#' ?
-//                    'ajax_roots.json' :
-//                    'ajax_children.json';
-//            },
-//            'data': function (node) {
-//                return {'id': node.id};
-//            }
-//
-//    }
 'core' : {
     'data': {
         "url": "get_info",

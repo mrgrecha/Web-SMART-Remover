@@ -11,6 +11,13 @@ from django.core.urlresolvers import reverse_lazy
 name_list = Trash_bin.objects.all()
 some_name = 'dimas'
 
+
+def get_context_data(self, **kwargs):
+    data = super(CreateView, self).get_context_data(**kwargs)
+    data['name_list'] = Trash_bin.objects.all()
+    return data
+
+
 def delete(request):
     name_list = Trash_bin.objects.all()
     current_page = 'delete'
@@ -31,6 +38,7 @@ def add(request):
 def tasks(request):
     current_page = 'tasks'
     name_list = Trash_bin.objects.all()
+    regular_tasks = RegularTask.objects.all()
     return render(request, 'smart_rm/tasks.html', locals())
 
 def settings_without_bin(request):
@@ -38,10 +46,10 @@ def settings_without_bin(request):
     name_list = Trash_bin.objects.all()
     return render(request, 'smart_rm/settings.html', locals())
 
-def history(request):
+def regex(request):
     current_page = 'history'
     name_list = Trash_bin.objects.all()
-    return render(request, 'smart_rm/history.html', locals())
+    return render(request, 'smart_rm/regex.html', locals())
 
 def logs(request):
     current_page = 'logs'
@@ -58,15 +66,20 @@ def get_trash_bin(request, trashBin):
     return cur_trash
 
 def success(request):
-    return render(request, 'smart_rm/success.html')
+    name_list = Trash_bin.objects.all()
+    return render(request, 'smart_rm/success.html', locals())
 
 
 class TrashBinCreate(CreateView):
-    name_list = Trash_bin.objects.all()
     model = Trash_bin
     template_name = 'smart_rm/add.html'
     fields = '__all__'
     success_url = "/success/"
+
+    def get_context_data(self, **kwargs):
+        data = super(CreateView, self).get_context_data(**kwargs)
+        data['name_list'] = Trash_bin.objects.all()
+        return data
 
 class TrashBinUpdate(UpdateView):
     name_list = Trash_bin.objects.all()
@@ -75,6 +88,21 @@ class TrashBinUpdate(UpdateView):
     fields = '__all__'
     success_url = "/success/"
 
+    def get_context_data(self, **kwargs):
+        data = super(UpdateView, self).get_context_data(**kwargs)
+        data['name_list'] = Trash_bin.objects.all()
+        return data
+
 class TrashBinDelete(DeleteView):
    model = Trash_bin
    success_url = '/success/'
+
+class RegularCreate(CreateView):
+    model = RegularTask
+    template_name = 'smart_rm/regex.html'
+    fields = '__all__'
+    success_url = "/success/"
+    def get_context_data(self, **kwargs):
+        data = super(CreateView, self).get_context_data(**kwargs)
+        data['name_list'] = Trash_bin.objects.all()
+        return data

@@ -1,17 +1,13 @@
 {% extends "smart_rm/base.html" %}
-
 {% block content %}
-    <div>
+<div>
         <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
             <div class="container">
                 <div class="form-group">
                     {{form.as_p}}
+                    <button class="btn btn-group" type="submit"> Add a task </button>
                 </div>
             </div>
-            <button class="btn btn-group" type="submit"> Edit </button>
-        </form>
-        <form action="{% url 'remove' form.name.value %}">
-            <button type="submit">Delete</button>
         </form>
     </div>
 {% endblock %}

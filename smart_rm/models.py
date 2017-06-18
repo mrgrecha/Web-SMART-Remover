@@ -15,6 +15,10 @@ class Trash_bin(models.Model):
     def __str__(self):
         return self.name
 
+class RegularTask(models.Model):
+    regular_expression = models.CharField(max_length=200)
+    start_folder = models.CharField(max_length=200)
+    current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
 
 class Task(models.Model):
     pass

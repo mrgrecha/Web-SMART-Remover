@@ -2,4 +2,7 @@
 
 {% block content %}
 <h1>Tasks</h1>
+{% for task in regular_tasks%}
+    <p>Regular: {{task.regular_expression}}, Folder: {{task.start_folder}}, Trash Bin: {{task.current_trash_bin}}</p>
+{% endfor %}
 {% endblock %}

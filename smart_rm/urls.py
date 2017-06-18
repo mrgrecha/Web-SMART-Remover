@@ -13,8 +13,12 @@ urlpatterns = [
     url(r'^history', views.history, name='history'),
     url(r'^settings$', views.settings_without_bin, name='settings'),
     url(r'^settings/trashBin/(?P<pk>\w+)/$', views.TrashBinUpdate.as_view(), name='settings'),
+    url(r'^remove/(?P<pk>\w+)/$', views.TrashBinDelete.as_view(), name='remove'),
     url(r'^add$', views.TrashBinCreate.as_view(), name='add'),
     url(r'^logs$', views.logs, name='logs'),
     url(r'get_info', views.get_info_for_file_system),
     url(r'^success/$', views.success)
 ]
+
+
+#    url(r'^remove/(?P<pk>\w+)/$', views.TrashBinDelete.as_view(), name='deleting'),

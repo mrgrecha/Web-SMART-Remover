@@ -1,14 +1,9 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<div>
-        <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
-            <div class="container">
-                <div class="form-group">
-                    {{form.as_p}}
-                </div>
-                <button class="btn btn-group" type="submit"> Edit </button>
-            </div>
-        </form>
+    <div>
+       <p>
+           Choose a trash bin!
+       </p>
     </div>
 {% endblock %}

@@ -1,0 +1,8 @@
+{% extends "smart_rm/base.html" %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+        Are you sure you want to delete trash "{{ object }}" ?
+        <input type="submit" value="Delete" />
+    </form>
+{% endblock%}}

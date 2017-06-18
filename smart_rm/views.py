@@ -2,9 +2,11 @@ from django.shortcuts import render
 from .forms import *
 from django.http import JsonResponse
 from .file_system import get_info
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 name_list = Trash_bin.objects.all()
 some_name = 'dimas'
@@ -58,6 +60,7 @@ def get_trash_bin(request, trashBin):
 def success(request):
     return render(request, 'smart_rm/success.html')
 
+
 class TrashBinCreate(CreateView):
     name_list = Trash_bin.objects.all()
     model = Trash_bin
@@ -68,6 +71,10 @@ class TrashBinCreate(CreateView):
 class TrashBinUpdate(UpdateView):
     name_list = Trash_bin.objects.all()
     model = Trash_bin
-    template_name = 'smart_rm/settings.html'
+    template_name = 'smart_rm/settings_with_trash_bin.html'
     fields = '__all__'
     success_url = "/success/"
+
+class TrashBinDelete(DeleteView):
+   model = Trash_bin
+   success_url = '/success/'

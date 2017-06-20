@@ -1,7 +1,5 @@
 import os
 import ConfigParser
-import argparse
-import json
 
 def make_config(name_of_trash_bin, path_of_trash_bin, policies, dried, silent, max_size, max_num, max_time):
     config = ConfigParser.RawConfigParser()
@@ -20,12 +18,8 @@ def make_config(name_of_trash_bin, path_of_trash_bin, policies, dried, silent, m
     config.set('Section_Custom', 'silent', silent)
     config.set('Section_Custom', 'policies', policies)
 
-    print 'Config is made'
-
     with open(path_of_config, 'wb') as configfile:
         config.write(configfile)
-    # with open(os.path.join(os.path.expanduser(file_path),'config.json'), 'wb') as config_json:
-    #     json.dump(json_dict, config_json, indent=4)
 
 if __name__ == '__main__':
     make_config(name_of_trash_bin='one_trash', path_of_trash_bin='/Users/Dima', policies='213', max_num=100, max_time=25, max_size=123, silent=True, dried=False)

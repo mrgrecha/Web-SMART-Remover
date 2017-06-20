@@ -9,6 +9,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
+import make_config
 
 
 name_list = Trash_bin.objects.all()
@@ -94,6 +95,31 @@ class TrashBinCreate(CreateView):
         data['name_list'] = Trash_bin.objects.all()
         return data
 
+    def get_form_kwargs(self):
+        kwargs = super(TrashBinUpdate, self).get_form_kwargs()
+        try:
+            kwargs['data']['dried']
+            dried = True
+        except KeyError:
+            dried = False
+
+        try:
+            kwargs['data']['silent']
+            silent = True
+        except KeyError:
+            silent = False
+
+        try:
+            make_config.make_config(name_of_trash_bin=kwargs['data']['name'],
+                                    path_of_trash_bin=kwargs['data']['path_of_trash'],
+                                    max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
+                                    max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
+                                    dried=dried, silent=silent)
+        except KeyError:
+            print 'KeyError'
+        return kwargs
+
+
 class TrashBinUpdate(UpdateView):
     name_list = Trash_bin.objects.all()
     model = Trash_bin
@@ -105,6 +131,31 @@ class TrashBinUpdate(UpdateView):
         data = super(UpdateView, self).get_context_data(**kwargs)
         data['name_list'] = Trash_bin.objects.all()
         return data
+
+    def get_form_kwargs(self):
+        kwargs = super(TrashBinUpdate, self).get_form_kwargs()
+        try:
+            kwargs['data']['dried']
+            dried = True
+        except KeyError:
+            dried = False
+
+        try:
+            kwargs['data']['silent']
+            silent = True
+        except KeyError:
+            silent = False
+
+        try:
+            make_config.make_config(name_of_trash_bin=kwargs['data']['name'],
+                                    path_of_trash_bin=kwargs['data']['path_of_trash'],
+                                    max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
+                                    max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
+                                    dried=dried, silent=silent)
+        except KeyError:
+            print 'KeyError'
+        return kwargs
+
 
 class TrashBinDelete(DeleteView):
    model = Trash_bin

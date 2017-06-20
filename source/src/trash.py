@@ -18,8 +18,6 @@ import verification
 
 class Trash(object):
 
-    __metaclass__ = singleton.Singleton
-
     def __init__(self, path_of_config=''):
         if os.path.exists(path_of_config):
             config = ConfigParser.RawConfigParser()

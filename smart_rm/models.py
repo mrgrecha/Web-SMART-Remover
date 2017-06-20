@@ -11,6 +11,7 @@ class Trash_bin(models.Model):
     silent = models.BooleanField()
     size = models.BigIntegerField()
     time = models.BigIntegerField()
+    number = models.BigIntegerField()
 
     def __str__(self):
         return self.name

@@ -15,6 +15,12 @@ class Trash_bin(models.Model):
     def __str__(self):
         return self.name
 
+    def get_name(self):
+        return str(self.name)
+
+    def get_data(self):
+        return self.path_of_trash
+
 class RegularTask(models.Model):
     regular_expression = models.CharField(max_length=200)
     start_folder = models.CharField(max_length=200)

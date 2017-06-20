@@ -9,7 +9,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
-import make_config
+import config_changing
 
 
 name_list = Trash_bin.objects.all()
@@ -96,7 +96,7 @@ class TrashBinCreate(CreateView):
         return data
 
     def get_form_kwargs(self):
-        kwargs = super(TrashBinUpdate, self).get_form_kwargs()
+        kwargs = super(TrashBinCreate, self).get_form_kwargs()
         try:
             kwargs['data']['dried']
             dried = True
@@ -110,11 +110,11 @@ class TrashBinCreate(CreateView):
             silent = False
 
         try:
-            make_config.make_config(name_of_trash_bin=kwargs['data']['name'],
-                                    path_of_trash_bin=kwargs['data']['path_of_trash'],
-                                    max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
-                                    max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
-                                    dried=dried, silent=silent)
+            config_changing.make_config(name_of_trash_bin=kwargs['data']['name'],
+                                        path_of_trash_bin=kwargs['data']['path_of_trash'],
+                                        max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
+                                        max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
+                                        dried=dried, silent=silent)
         except KeyError:
             print 'KeyError'
         return kwargs
@@ -147,11 +147,11 @@ class TrashBinUpdate(UpdateView):
             silent = False
 
         try:
-            make_config.make_config(name_of_trash_bin=kwargs['data']['name'],
-                                    path_of_trash_bin=kwargs['data']['path_of_trash'],
-                                    max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
-                                    max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
-                                    dried=dried, silent=silent)
+            config_changing.make_config(name_of_trash_bin=kwargs['data']['name'],
+                                        path_of_trash_bin=kwargs['data']['path_of_trash'],
+                                        max_size=int(kwargs['data']['size']), max_time=int(kwargs['data']['time']),
+                                        max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
+                                        dried=dried, silent=silent)
         except KeyError:
             print 'KeyError'
         return kwargs
@@ -160,6 +160,13 @@ class TrashBinUpdate(UpdateView):
 class TrashBinDelete(DeleteView):
    model = Trash_bin
    success_url = '/success/'
+
+
+   def get_object(self, queryset=None):
+       trash_bin = super(TrashBinDelete, self).get_object()
+       config_changing.remove_trash_bin(name_of_trash_bin=trash_bin)
+       return trash_bin
+
 
 class RegularCreate(CreateView):
     model = RegularTask

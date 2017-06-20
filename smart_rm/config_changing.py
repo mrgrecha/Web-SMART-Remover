@@ -1,5 +1,6 @@
 import os
 import ConfigParser
+import shutil
 
 def make_config(name_of_trash_bin, path_of_trash_bin, policies, dried, silent, max_size, max_num, max_time):
     config = ConfigParser.RawConfigParser()
@@ -21,5 +22,16 @@ def make_config(name_of_trash_bin, path_of_trash_bin, policies, dried, silent, m
     with open(path_of_config, 'wb') as configfile:
         config.write(configfile)
 
+def remove_trash_bin(name_of_trash_bin):
+    config_name = 'config_of_' + name_of_trash_bin.get_name() + '.cfg'
+    path_of_config = os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name)
+    config = ConfigParser.RawConfigParser()
+    config.read(path_of_config)
+    path_of_trash_bin = os.path.expanduser(config.get('Section_Custom', 'path'))
+    os.remove(path_of_config)
+    # os.remove(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', name_of_trash_bin.get_name() + '.json'))
+    # shutil.rmtree(path_of_trash_bin + '_' + name_of_trash_bin.get_name())
+
+
 if __name__ == '__main__':
-    make_config(name_of_trash_bin='one_trash', path_of_trash_bin='/Users/Dima', policies='213', max_num=100, max_time=25, max_size=123, silent=True, dried=False)
+  pass

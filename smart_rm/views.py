@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from .forms import *
+import json
 from django.http import JsonResponse
 from .file_system import get_info
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+
 
 name_list = Trash_bin.objects.all()
 some_name = 'dimas'
@@ -17,7 +20,15 @@ def get_context_data(self, **kwargs):
     data['name_list'] = Trash_bin.objects.all()
     return data
 
+@csrf_exempt
+def add_task(request):
+    data = dict(request.POST)
+    current_trash = Trash_bin.objects.get(name=data['trash'][0])
+    task_instance = Task(current_trash_bin=current_trash, files_to_delete=data['files[]'])
+    task_instance.save()
+    return render(request, 'smart_rm/success.html')
 
+@csrf_exempt
 def delete(request):
     name_list = Trash_bin.objects.all()
     current_page = 'delete'
@@ -39,6 +50,7 @@ def tasks(request):
     current_page = 'tasks'
     name_list = Trash_bin.objects.all()
     regular_tasks = RegularTask.objects.all()
+    tasks_list = Task.objects.all()
     return render(request, 'smart_rm/tasks.html', locals())
 
 def settings_without_bin(request):
@@ -58,7 +70,7 @@ def logs(request):
 
 def get_info_for_file_system(request):
     json_answer = get_info('/Users/Dima/dima1')
-    print json_answer
+    #print json_answer
     return JsonResponse(json_answer, safe=False)
 
 def get_trash_bin(request, trashBin):
@@ -68,6 +80,7 @@ def get_trash_bin(request, trashBin):
 def success(request):
     name_list = Trash_bin.objects.all()
     return render(request, 'smart_rm/success.html', locals())
+
 
 
 class TrashBinCreate(CreateView):
@@ -102,7 +115,3 @@ class RegularCreate(CreateView):
     template_name = 'smart_rm/regex.html'
     fields = '__all__'
     success_url = "/success/"
-    def get_context_data(self, **kwargs):
-        data = super(CreateView, self).get_context_data(**kwargs)
-        data['name_list'] = Trash_bin.objects.all()
-        return data

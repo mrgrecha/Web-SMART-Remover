@@ -2,6 +2,22 @@
 
 {% block content %}
 <h1>Delete</h1>
+
+<select id="id_current_trash_bin">
+    {% for name in name_list %}
+    <option value='{{name}}'>{{name}}</option>
+    {% endfor %}
+</select>
+
+<form method="post" action="" class="form-inline text-center"> {% csrf_token %}
+            <div class="container">
+                <div class="form-group">
+                    {{form.current_trash_bin}}
+                    <button class="btn btn-group" type="submit" id="delete-button"> Add a task </button>
+                </div>
+            </div>
+        </form>
+
 <div class="container">
     <div class="row col-lg-offset-12">
         <button class="btn btn-danger" id="delete_button">Delete them!</button>
@@ -24,11 +40,18 @@ $('#container-tree').jstree({
 });
 
 $('#delete_button').on('click', function (event) {
+    var current_trash =  $("#id_current_trash_bin").val();
     event.preventDefault();
     var selectedElmsIds = $('#container-tree').jstree("get_selected");
-    console.log(selectedElmsIds);
 
+var data = {
+    trash : current_trash,
+    files : selectedElmsIds
+};
+console.log(data);
+    $.post('add_task', data);
 });
+
 
 </script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endblock %}

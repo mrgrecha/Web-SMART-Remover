@@ -21,7 +21,8 @@ class RegularTask(models.Model):
     current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
 
 class Task(models.Model):
-    pass
+    current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
+    files_to_delete = models.CharField(max_length=1000)
 
 class File(models.Model):
     path = models.FilePathField()

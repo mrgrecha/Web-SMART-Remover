@@ -5,4 +5,7 @@
 {% for task in regular_tasks%}
     <p>Regular: {{task.regular_expression}}, Folder: {{task.start_folder}}, Trash Bin: {{task.current_trash_bin}}</p>
 {% endfor %}
+{% for task in tasks_list%}
+    <p>Files: {{task.files_to_delete}}, Trash Bin: {{task.current_trash_bin}}</p>
+{% endfor %}
 {% endblock %}

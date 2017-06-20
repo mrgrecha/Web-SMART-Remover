@@ -105,14 +105,6 @@ html, body{
             </ul>
         </nav>
 
-        {% block navbar-left %}
-            <nav class="navbar navbar-inverse">
-                <ul class="nb-top-2">
-                {% for name in name_list %}
-                    <li class="li-nb-top-2"><a class="li-nb-top-2-a" href="/{{current_page}}/trashBin/{{name}}">{{name}}</a></li>
-                {% endfor %}</ul>
-        {% endblock %}
-            </nav>
 
     
     {% block content %}

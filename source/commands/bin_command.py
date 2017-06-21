@@ -9,14 +9,12 @@ from source.src.dry_run import dry_run
 import command_object
 import remove_command
 from command import Command
-from source.src.interactive import interactive
 
 class RecCommand(Command):
 
     def __init__(self, my_trash):
         super(Command, self).__init__()
         self.dried = my_trash.dried
-        self.interactive = my_trash.interactive
         self.trash = my_trash
         self.files_to_return = []
 
@@ -91,7 +89,6 @@ class RecCommand(Command):
         os.rename(os.path.join(my_trash.path_of_trash, each_json_file['hash']), each_json_file['path'])
         return each_json_file
 
-    @interactive
     def recover(self, list_of_files, my_trash):
         """
         Recover files from trash bin to their locations
@@ -130,7 +127,6 @@ class DFTCommand(Command):
     def __init__(self, my_trash):
         super(Command, self).__init__()
         self.dried = my_trash.dried
-        self.interactive = my_trash.interactive
         self.trash = my_trash
         self.files_to_return = []
 
@@ -172,7 +168,6 @@ class DFTCommand(Command):
 
         return result_list
 
-    @interactive
     def remove_from_trash(self, list_of_files, my_trash):
         """
         Remove a file from trash

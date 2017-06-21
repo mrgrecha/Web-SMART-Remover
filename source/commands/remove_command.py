@@ -11,14 +11,13 @@ import bin_command
 import source.src.file_object
 from command import Command
 from source.src.dry_run import dry_run
-from source.src.interactive import interactive
+
 
 class RFCommand(Command):
 
     def __init__(self, my_trash):
         super(Command, self).__init__()
         self.dried = my_trash.dried
-        self.interactive = my_trash.interactive
         self.trash = my_trash
         self.files_to_return = []
 
@@ -49,7 +48,6 @@ class RFCommand(Command):
             #     self.files_to_return.append(arr_files[ind].hash)
         return arr_files
 
-    @interactive
     def delete_files(self, list_of_files, my_trash):
         """Delete a list of files with checking for folders"""
         list_for_return = []
@@ -85,7 +83,6 @@ class RDCommand(Command):
     def __init__(self, my_trash):
         super(Command, self).__init__()
         self.dried = my_trash.dried
-        self.interactive = my_trash.interactive
         self.trash = my_trash
         self.dirs_to_return = []
 
@@ -109,7 +106,6 @@ class RDCommand(Command):
             shutil.move(str(arr_dirs[index].hash), my_trash.path_of_trash)
         return  arr_dirs
 
-    @interactive
     def delete_dir(self, list_of_dirs, my_trash):
         """
         Delete a list of directories with checking
@@ -147,7 +143,6 @@ class RRCommand(Command):
         super(Command, self).__init__()
         self.cur_dir = os.path.curdir
         self.dried = my_trash.dried
-        self.interactive = my_trash.interactive
         self.trash = my_trash
         self.files_to_remove = []
         self.dirs_to_remove = []

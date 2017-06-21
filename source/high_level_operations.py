@@ -13,15 +13,18 @@ recover_command = commands.bin_command.RecCommand(my_trash)
 delete_command = commands.bin_command.DFTCommand(my_trash)
 
 def help_function_for_removing_files(list_for_manager, list_for_removing):
-    list_of_objects_of_removed_files = remove_file_command.execute(list_for_removing)
+    print list_for_removing
+    list_of_objects_of_removed_files = remove_file_command.execute([list_for_removing])
     for obj in list_of_objects_of_removed_files:
         list_for_manager.append(obj.__dict__)
 
 def high_remove_files(list_of_files, the_trash):
+    print list_of_files
     processes = []
     manager = multiprocessing.Manager()
     manager_list = manager.list()
-    res = src.dividing.parallel_dividing(list_of_files)
+    # res = src.dividing.parallel_dividing(list_of_files)
+    res = list_of_files
     for i in xrange(len(res)):
         p = multiprocessing.Process(target=help_function_for_removing_files, args=(manager_list, res[i]))
         processes.append(p)

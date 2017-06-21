@@ -32,8 +32,6 @@ class Trash(object):
             self.policies = config.get('Section_Custom', 'policies')
             self.silent = config.getboolean('Section_Custom', 'silent')
             self.dried = config.getboolean('Section_Custom', 'dry_run')
-            self.interactive = config.getboolean('Section_Custom', 'interactive')
-            self.force = config.getboolean('Section_Custom', 'force')
         else:
             self.path_of_trash = os.path.expanduser('~/.MyTrash')
             self.database = os.path.expanduser('~/.DB.json')
@@ -45,8 +43,6 @@ class Trash(object):
             self.policies = 'default'
             self.silent = False
             self.dried = False
-            self.interactive = False
-            self.force = False
 
         if not os.path.exists(self.path_of_trash):
             os.makedirs(self.path_of_trash)
@@ -70,12 +66,6 @@ class Trash(object):
         self.silent = True
         self.rootLogger.setLevel(logging.CRITICAL)
 
-    def go_interactive_mode(self):
-        """
-        Interactive mode on
-        :return:
-        """
-        self.interactive = True
 
     def check_policy(self):
         """

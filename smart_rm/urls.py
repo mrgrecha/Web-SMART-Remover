@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'get_info', views.get_info_for_file_system),
     url(r'^success/$', views.success),
     url(r'delete/add_task', views.add_task, name='adding_task'),
+    url(r'tasks/execute_task', views.execute_task, name='executing_task'),
 ]
 
 

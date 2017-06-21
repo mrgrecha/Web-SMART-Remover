@@ -10,7 +10,7 @@ def make_config(name_of_trash_bin, path_of_trash_bin, policies, dried, silent, m
         with open(path_of_config, 'w+'):
             pass
     config.add_section('Section_Custom')
-    config.set('Section_Custom', 'path', path_of_trash_bin + '_' + name_of_trash_bin)
+    config.set('Section_Custom', 'path', path_of_trash_bin + '/' + '.' + name_of_trash_bin)
     config.set('Section_Custom', 'database', '~/.Configs_for_web_rm/' + name_of_trash_bin + '.json')
     config.set('Section_Custom', 'max_size', max_size)
     config.set('Section_Custom', 'max_time', max_time)

@@ -27,7 +27,7 @@ def get_context_data(self, **kwargs):
 def add_task(request):
     data = dict(request.POST)
     current_trash = Trash_bin.objects.get(name=data['trash'][0])
-    task_instance = Task(current_trash_bin=current_trash, files_to_delete=data['files[]'])
+    task_instance = Task(current_trash_bin=current_trash, files_to_delete=[file.encode('ascii', 'ignore') for file in data['files[]']])
     task_instance.save()
     return render(request, 'smart_rm/success.html')
 
@@ -39,7 +39,7 @@ def execute_task(request):
     current_trash_bin = data['trash']
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
-    source.high_level_operations.high_remove_files(files_to_delete[0].replace('&#39;', '').replace('u', '').replace('[', '').replace(']', '').split(', '), my_trash)
+    source.high_level_operations.high_remove_files([file.encode('ascii', 'ignore') for file in files_to_delete[0].replace('&#39;', '').replace('[', '').replace(']', '').split(', ')], my_trash)
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
 

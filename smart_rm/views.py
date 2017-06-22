@@ -121,9 +121,13 @@ def logs(request):
 
 
 def get_info_for_file_system(request):
-    json_answer = get_info('/Users/Dima/dima1')
-    #print json_answer
-    return JsonResponse(json_answer, safe=False)
+    print 'Get info:', request.GET
+    id = request.GET['id']
+    if id == '#':
+        home = os.path.expanduser('~')
+        return JsonResponse(get_info(home), safe=False)
+    else:
+        return JsonResponse(get_info(id), safe=False)
 
 
 def get_trash_bin(request, trashBin):

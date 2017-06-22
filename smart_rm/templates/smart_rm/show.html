@@ -1,5 +1,15 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<h1>Show</h1>
+        <nav class="navbar navbar-inverse">
+            <ul class="nb-top-2">
+            {% for name in name_list %}
+                <li class="li-nb-top-2"><a class="li-nb-top-2-a" href="/{{current_page}}/trashBin/{{name}}">{{name}}</a></li>
+            {% endfor %}</ul>
+        </nav>
+    <div>
+       <p>
+           Choose a trash bin for showing files in it!
+       </p>
+    </div>
 {% endblock %}

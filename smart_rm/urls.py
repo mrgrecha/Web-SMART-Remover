@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^success/$', views.success),
     url(r'delete/add_task', views.add_task, name='adding_task'),
     url(r'tasks/execute_task', views.execute_task, name='executing_task'),
+    url(r'tasks/delete_task', views.delete_task, name='deleting_task'),
 ]
 
 

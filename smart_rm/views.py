@@ -34,7 +34,6 @@ def add_task(request):
 @csrf_exempt
 def execute_task(request):
     data = dict(request.POST)
-    print data
     files_to_delete = data['files']
     current_trash_bin = data['trash']
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
@@ -44,9 +43,26 @@ def execute_task(request):
     return render(request, 'smart_rm/success.html')
 
 @csrf_exempt
+def execute_regular_task(request):
+    data = dict(request.POST)
+    start_folder = data['start_folder'][0]
+    pattern = data['pattern'][0]
+    current_trash_bin = data['trash']
+    config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
+    my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
+    source.high_level_operations.high_regular_removing(start_folder=start_folder, pattern=pattern, the_trash=my_trash)
+    RegularTask.objects.get(id=data['task_id'][0]).delete()
+    return render(request, 'smart_rm/success.html')
+
+@csrf_exempt
+def delete_regular_task(request):
+    data = dict(request.POST)
+    RegularTask.objects.get(id=data['task_id'][0]).delete()
+    return render(request, 'smart_rm/success.html')
+
+@csrf_exempt
 def delete_task(request):
     data = dict(request.POST)
-    print data
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
 

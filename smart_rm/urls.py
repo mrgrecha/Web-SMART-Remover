@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'delete/add_task', views.add_task, name='adding_task'),
     url(r'tasks/execute_task', views.execute_task, name='executing_task'),
     url(r'tasks/delete_task', views.delete_task, name='deleting_task'),
+    url(r'tasks/execute_regular_task', views.execute_regular_task, name='executing_regular_task'),
+    url(r'tasks/delete_regular_task', views.delete_regular_task, name='deleting_regular_task'),
 ]
 
 

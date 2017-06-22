@@ -139,9 +139,9 @@ class RDCommand(Command):
 
 class RRCommand(Command):
 
-    def __init__(self, my_trash):
+    def __init__(self, current_folder, my_trash):
         super(Command, self).__init__()
-        self.cur_dir = os.path.curdir
+        self.cur_dir = current_folder
         self.dried = my_trash.dried
         self.trash = my_trash
         self.files_to_remove = []
@@ -149,7 +149,6 @@ class RRCommand(Command):
 
     def execute(self, regex):
         self.delete_for_regex(self.cur_dir, regex, self.trash)
-        self.real_regex()
         return [self.files_to_remove, self.dirs_to_remove]
 
     def cancel(self, list_of_something):
@@ -173,9 +172,4 @@ class RRCommand(Command):
             elif os.path.isdir(path) and not re.match(regex, name):
                 self.delete_for_regex(path, regex, self.trash)
 
-    def real_regex(self):
-        rfc = RFCommand(self.trash)
-        rdc = RDCommand(self.trash)
-        self.dirs_to_remove = rdc.execute(self.dirs_to_remove)
-        self.files_to_remove = rfc.execute(self.files_to_remove)
 

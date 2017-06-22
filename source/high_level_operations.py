@@ -7,8 +7,6 @@ import src.serialization
 import os
 
 elems_for_deleting = ["tt.1", "tt.2", "tt.3", "tt.4", "tt.5", "tt.6", "tt.7", "tt.8", "tt.9", "tt.10"]
-# remove_file_command = commands.remove_command.RFCommand(my_trash)
-# remove_directory_command = commands.remove_command.RDCommand(my_trash)
 # recover_command = commands.bin_command.RecCommand(my_trash)
 # delete_command = commands.bin_command.DFTCommand(my_trash)
 
@@ -18,11 +16,10 @@ def high_remove_files(list_of_files, the_trash):
     processes = []
     manager = multiprocessing.Manager()
     manager_list = manager.list()
-    # res = src.dividing.parallel_dividing(list_of_files)
-    res = list_of_files
+    res = src.dividing.parallel_dividing(list_of_files)
 
     def help_function_for_removing_files(list_for_manager, list_for_removing):
-        list_of_objects_of_removed_files = remove_file_command.execute([list_for_removing])
+        list_of_objects_of_removed_files = remove_file_command.execute(list_for_removing)
         for obj in list_of_objects_of_removed_files:
             list_for_manager.append(obj.__dict__)
 
@@ -37,19 +34,15 @@ def high_remove_files(list_of_files, the_trash):
     the_trash.arr_json_files += manager_list
     src.serialization.push_json(the_trash.arr_json_files, the_trash.database)
 
-
-
-
 def high_remove_dirs(list_of_dirs, the_trash):
     processes = []
     remove_directory_command = commands.remove_command.RDCommand(the_trash)
     manager = multiprocessing.Manager()
     manager_list = manager.list()
-    # res = src.dividing.parallel_dividing(list_of_dirs, force_dividing=True)
-    res = list_of_dirs
+    res = src.dividing.parallel_dividing(list_of_dirs, force_dividing=True)
 
     def help_function_for_removing_dirs(list_for_manager, list_for_removing):
-        list_of_objects_of_removed_dirs = remove_directory_command.execute([list_for_removing])
+        list_of_objects_of_removed_dirs = remove_directory_command.execute(list_for_removing)
         for obj in list_of_objects_of_removed_dirs:
             list_for_manager.append(obj.__dict__)
 
@@ -76,6 +69,11 @@ def high_remove(list_of_files_and_dirs, the_trash):
     high_remove_dirs(dirs, the_trash)
 
 
+def high_regular_removing(start_folder, pattern, the_trash):
+    remove_regex_command = commands.remove_command.RRCommand(start_folder, the_trash)
+    files, dirs = remove_regex_command.execute(pattern)
+    high_remove_files(files, the_trash)
+    high_remove_dirs(dirs, the_trash)
 
 # #TODO fix bugs
 # def help_function_for_recovering(list_for_manager, list_for_recovering):
@@ -131,8 +129,4 @@ def high_remove(list_of_files_and_dirs, the_trash):
 
 
 if __name__ == '__main__':
-    # temp = ["aa", "bb", "cc", "dd", "ee"]
-    # high_remove_files(temp, my_trash)
-    names = []
-    names.append("155d0bc6-1286-4a2d-92ae-332f49b00ec9")
-    names.append("ca8bbc34-c2d7-433d-b2ae-4be63f2cddd9")
+   pass

@@ -2,8 +2,30 @@
 
 {% block content %}
 <h1>Tasks</h1>
-{% for task in regular_tasks%}
-    <p>Regular: {{task.regular_expression}}, Folder: {{task.start_folder}}, Trash Bin: {{task.current_trash_bin}}</p>
+{% for reg_task in regular_tasks%}
+    <p>Regular: {{reg_task.regular_expression}}, Folder: {{reg_task.start_folder}}, Trash Bin: {{reg_task.current_trash_bin}}</p>
+    <button class="btn btn-danger" id="execute-{{reg_task.id}}">Execute!</button>
+    <button class="btn btn-danger" id="delete-{{reg_task.id}}">Delete!</button>
+    <script>
+    $("#execute-{{reg_task.id}}").on('click', function (event) {
+        var current_trash =  '{{reg_task.current_trash_bin}}';
+        event.preventDefault();
+        var data = {
+            trash : current_trash,
+            start_folder : '{{reg_task.start_folder}}',
+            task_id : '{{reg_task.id}}',
+            pattern : '{{reg_task.regular_expression}}'
+        };
+        console.log(data);
+                $.post('execute_regular_task', data);
+            });
+
+    $("#delete-{{reg_task.id}}").on('click', function (event) {
+        event.preventDefault();
+                $.post('delete_regular_task', {task_id : '{{reg_task.id}}'});
+            });
+
+    </script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endfor %}
 {% for task in tasks_list%}
     <p>Files: {{task.files_to_delete}}, Trash Bin: {{task.current_trash_bin}}</p>
@@ -19,7 +41,7 @@ $("#execute-{{task.id}}").on('click', function (event) {
         task_id : '{{task.id}}'
     };
     console.log(data);
-            $.post('execute_task', data);
+            $.post('execute_regular_task', data);
         });
 
 $("#delete-{{task.id}}").on('click', function (event) {

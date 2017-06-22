@@ -41,7 +41,7 @@ $("#execute-{{task.id}}").on('click', function (event) {
         task_id : '{{task.id}}'
     };
     console.log(data);
-            $.post('execute_regular_task', data);
+            $.post('execute_task', data);
         });
 
 $("#delete-{{task.id}}").on('click', function (event) {

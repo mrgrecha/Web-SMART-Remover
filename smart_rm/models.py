@@ -32,3 +32,8 @@ class Task(models.Model):
 
 class Log(models.Model):
     text = models.TextField()
+
+class History(models.Model):
+    task = models.ForeignKey('Task', null=True, blank=True)
+    regular_task = models.ForeignKey('RegularTask', null=True, blank=True)
+    state = models.CharField(max_length=100)

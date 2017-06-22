@@ -1,0 +1,15 @@
+{% extends "smart_rm/base.html" %}
+
+{% block content %}
+<h1>History</h1>
+{% for post in history_list%}
+    {% if post.task %}
+    <p>Files: {{post.task.files_to_delete}}, Trash Bin: {{post.task.current_trash_bin}}, State: {{post.state}}</p>
+    {% endif %}
+
+    {% if post.regular_task %}
+        <p>Regular: {{post.regular_task.pattern}}, Start Folder: {{post.regular_task.start_folder}}, Trash Bin: {{post.regular_task.current_trash_bin}}, State: {{post.state}}</p>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

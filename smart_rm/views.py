@@ -1,13 +1,12 @@
 from django.shortcuts import render
-from .forms import *
+# from .forms import *
+from .models import *
 import os
 from django.http import JsonResponse
 from .file_system import get_info
-from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
-from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 import config_changing
 import source.src.trash
@@ -23,6 +22,7 @@ def get_context_data(self, **kwargs):
     data['name_list'] = Trash_bin.objects.all()
     return data
 
+
 @csrf_exempt
 def add_task(request):
     data = dict(request.POST)
@@ -30,6 +30,7 @@ def add_task(request):
     task_instance = Task(current_trash_bin=current_trash, files_to_delete=[file.encode('ascii', 'ignore') for file in data['files[]']])
     task_instance.save()
     return render(request, 'smart_rm/success.html')
+
 
 @csrf_exempt
 def execute_task(request):
@@ -39,8 +40,11 @@ def execute_task(request):
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
     source.high_level_operations.high_remove([file.encode('ascii', 'ignore') for file in files_to_delete[0].replace('&#39;', '').replace('[', '').replace(']', '').split(', ')], my_trash)
+    history_instance = History(task=Task.objects.get(id=data['task_id'][0]), state='Done')
+    history_instance.save()
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
+
 
 @csrf_exempt
 def execute_regular_task(request):
@@ -51,8 +55,11 @@ def execute_regular_task(request):
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
     source.high_level_operations.high_regular_removing(start_folder=start_folder, pattern=pattern, the_trash=my_trash)
+    history_instance = History(regular_task=RegularTask.objects.get(id=data['task_id'][0]), state='Done')
+    history_instance.save()
     RegularTask.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
+
 
 @csrf_exempt
 def delete_regular_task(request):
@@ -60,11 +67,13 @@ def delete_regular_task(request):
     RegularTask.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
 
+
 @csrf_exempt
 def delete_task(request):
     data = dict(request.POST)
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
+
 
 @csrf_exempt
 def delete(request):
@@ -72,17 +81,12 @@ def delete(request):
     current_page = 'delete'
     return render(request, 'smart_rm/delete.html', locals())
 
+
 def show(request):
     name_list = Trash_bin.objects.all()
     current_page = 'show'
     return render(request, 'smart_rm/show.html', locals())
 
-def add(request):
-    name_list = Trash_bin.objects.all()
-    add_form = AddingForm(request.POST or None)
-    if request.method == 'POST' and add_form.is_valid():
-        add_form.save()
-    return render(request, 'smart_rm/add.html', locals())
 
 def tasks(request):
     current_page = 'tasks'
@@ -91,29 +95,41 @@ def tasks(request):
     tasks_list = Task.objects.all()
     return render(request, 'smart_rm/tasks.html', locals())
 
+
+
+def history(request):
+    current_page = 'history'
+    history_list = History.objects.all()
+    return render(request, 'smart_rm/history.html', locals())
+
 def settings_without_bin(request):
     current_page = 'settings'
     name_list = Trash_bin.objects.all()
     return render(request, 'smart_rm/settings.html', locals())
+
 
 def regex(request):
     current_page = 'history'
     name_list = Trash_bin.objects.all()
     return render(request, 'smart_rm/regex.html', locals())
 
+
 def logs(request):
     current_page = 'logs'
     name_list = Trash_bin.objects.all()
     return render(request, 'smart_rm/logs.html', locals())
+
 
 def get_info_for_file_system(request):
     json_answer = get_info('/Users/Dima/dima1')
     #print json_answer
     return JsonResponse(json_answer, safe=False)
 
+
 def get_trash_bin(request, trashBin):
     cur_trash = Trash_bin.objects.get(name=trashBin)
     return cur_trash
+
 
 def success(request):
     name_list = Trash_bin.objects.all()

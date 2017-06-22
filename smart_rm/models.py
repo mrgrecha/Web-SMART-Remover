@@ -28,7 +28,9 @@ class RegularTask(models.Model):
 
 class Task(models.Model):
     current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
-    files_to_delete = models.TextField()
+    files = models.TextField()
+    name_of_operation = models.CharField(max_length=50)
+    hashes = models.TextField(null=True, blank=True)
 
 class Log(models.Model):
     text = models.TextField()

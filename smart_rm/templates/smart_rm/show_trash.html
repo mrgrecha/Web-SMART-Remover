@@ -1,19 +1,38 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-    <p>Trash inside!</p>
 
-        <button class="btn btn-danger" id="delete_button">Delete them!</button>
+        <button class="btn bg-primary" id="delete_button">Delete!</button>
         <button class="btn btn-danger" id="delete_all_button">Delete all!</button>
-        <button class="btn btn-danger" id="recover_button">Recover them!</button>
+        <button class="btn btn-primary" id="recover_button">Recover!</button>
         <button class="btn btn-danger" id="recover_all_button">Recover all!</button>
     <p></p>
+<table class="table table-striped">
+    <thead>
+      <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Hash</th>
+          <th>Path</th>
+          <th>Type</th>
+          <th>Size</th>
+      </tr>
+    </thead>
+        <tbody>
     {% for file in arr_json_files %}
+    <tr>
+        <td>
         <input class="Checkbox" type="checkbox" id="{{file.hash}}" value="{{file.name}}">
-        <label for="{{file.hash}}">{{file.name}} type: {{file.type}} size: {{file.size}} Bytes</label>
-        <p></p>
+        </td>
+        <td>{{file.name}}</td>
+        <td>{{file.hash}}</td>
+        <td>{{file.path}}</td>
+        <td>{{file.type}}</td>
+        <td>{{file.size}} Bytes</td>
+    </tr>
     {% endfor %}
-
+        </tbody>
+</table>
 <script>
 $('#delete_button').on('click', function (event) {
     var array_of_hashes = [];

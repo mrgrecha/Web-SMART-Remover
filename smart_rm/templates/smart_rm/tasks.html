@@ -1,11 +1,30 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<h1>Tasks</h1>
-{% for reg_task in regular_tasks%}
-    <p>Regular: {{reg_task.regular_expression}}, Folder: {{reg_task.start_folder}}, Trash Bin: {{reg_task.current_trash_bin}}</p>
-    <button class="btn btn-danger" id="execute-{{reg_task.id}}">Execute!</button>
-    <button class="btn btn-danger" id="delete-{{reg_task.id}}">Delete!</button>
+<table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Regular Expression</th>
+          <th>Start directory</th>
+          <th>Trash bin</th>
+          <th>Execute!</th>
+          <th>Delete!</th>
+      </tr>
+    </thead>
+        <tbody>
+        {% for reg_task in regular_tasks%}
+        <tr>
+            <td>{{reg_task.regular_expression}}</td>
+            <td>{{reg_task.start_folder}}</td>
+            <td>{{reg_task.current_trash_bin}}</td>
+            <td>
+                <button class="btn btn-primary" id="execute-{{reg_task.id}}">Execute!</button>
+            </td>
+            <td>
+                <button class="btn btn-danger" id="delete-{{reg_task.id}}">Cancel!</button>
+            </td>
+        </tr>
+
     <script>
     $("#execute-{{reg_task.id}}").on('click', function (event) {
         var current_trash =  '{{reg_task.current_trash_bin}}';
@@ -27,10 +46,32 @@
 
     </script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endfor %}
+
+        </tbody>
+</table>
+<table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Files</th>
+          <th>Trash bin</th>
+          <th>Name of operation</th>
+          <th>Execute!</th>
+          <th>Delete!</th>
+      </tr>
+    </thead>
+        <tbody>
 {% for task in tasks_list%}
-    <p>Files: {{task.files}}, Trash Bin: {{task.current_trash_bin}}, Type: {{task.name_of_operation}}</p>
-    <button class="btn btn-danger" id="execute-{{task.id}}">Execute!</button>
-    <button class="btn btn-danger" id="delete-{{task.id}}">Delete!</button>
+<tr>
+            <td>{{task.files}}</td>
+            <td>{{task.current_trash_bin}}</td>
+            <td>{{task.name_of_operation}}</td>
+            <td>
+                <button class="btn btn-primary" id="execute-{{task.id}}">Execute!</button>
+            </td>
+            <td>
+                <button class="btn btn-danger" id="delete-{{task.id}}">Cancel!</button>
+            </td>
+        </tr>
 <script>
 $("#execute-{{task.id}}").on('click', function (event) {
     var current_trash =  '{{task.current_trash_bin}}';
@@ -53,5 +94,7 @@ $("#delete-{{task.id}}").on('click', function (event) {
 
 </script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endfor %}
+        </tbody>
+</table>
 
 {% endblock %}

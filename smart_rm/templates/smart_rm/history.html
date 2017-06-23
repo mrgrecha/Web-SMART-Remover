@@ -1,15 +1,41 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<h1>History</h1>
+<table class="table table-striped">
+    <thead>
+      <tr>
+          <th>Files</th>
+          <th>Regular expression</th>
+          <th>Start folder</th>
+          <th>Operation</th>
+          <th>Trash bin</th>
+          <th>State</th>
+      </tr>
+    </thead>
+        <tbody>
 {% for post in history_list%}
     {% if post.files%}
-    <p>Files: {{post.files}}, Trash Bin: {{post.trash_bin}}, Operation: {{post.name_of_operation}}, State: {{post.state}}</p>
+    <tr>
+        <td>{{post.files}}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>{{post.name_of_operation}}</td>
+        <td>{{post.trash_bin}}</td>
+        <td>{{post.state}}</td>
+    </tr>
     {% endif %}
 
     {% if post.start_folder %}
-        <p>Regular: {{post.pattern}}, Start Folder: {{post.start_folder}}, Trash Bin: {{post.trash_bin}}, State: {{post.state}}</p>
+        <tr>
+        <td>-</td>
+        <td>{{post.pattern}}</td>
+        <td>{{post.start_folder}}</td>
+        <td>{{post.name_of_operation}}</td>
+        <td>{{post.trash_bin}}</td>
+        <td>{{post.state}}</td>
+    </tr>
     {% endif %}
 {% endfor %}
-
+        </tbody>
+</table>
 {% endblock %}

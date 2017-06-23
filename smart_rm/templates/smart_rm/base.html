@@ -1,6 +1,19 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<style>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>SMART RM</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
+       <div class="jumbotron">
+            <h1>Smart Remover</h1>
+            <p>Smart Remover's WEB-interface</p>
+       </div>
+        <style>
     ul.nb-top {
     list-style-type: none;
     margin: 0;
@@ -59,36 +72,20 @@ li a.li-nb-top-2-a:hover:not(.active) {
 
 
 .general-container{
-    background-color: #dafaff;
-    height: 100%;
+    background-color: #eee;
 }
 
-html, body{
-    height: 100%;
-    max-width: 100%;
-}
 
 .page-header{
     text-align: center;
 }
+.jumbotron{
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.smart-head
 </style>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>SMART RM</title>
-        <link rel="stylesheet" href="../../static/css/base.css">
-        <link rel="stylesheet" href="../../static/css/history.css">
-        <link rel="stylesheet" href="../../static/css/delete.css">
-        <link rel="stylesheet" href="../../static/css/add.css">
-        <link rel="stylesheet" href="../../static/css/dist/themes/default/style.min.css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
-       <div class="page-header">
-            <h1>Smart RM</h1>
-       </div>
     </head>
 
 <body>
@@ -99,7 +96,6 @@ html, body{
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/regex">Regular</a></li>
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/show">Show</a></li>
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/tasks">List of tasks</a></li>
-                <li class="li-nb-top"><a class="li-nb-top-a" href="/logs">Logs</a></li>
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/settings">Settings</a></li>
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/add">Add</a></li>
                 <li class="li-nb-top"><a class="li-nb-top-a" href="/history">History</a></li>

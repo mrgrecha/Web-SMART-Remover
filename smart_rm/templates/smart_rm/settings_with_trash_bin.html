@@ -1,17 +1,30 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-    <div>
+<style>
+    .choice-class{
+        height: 520px;
+    }
+    .but-position{
+        margin-top: 5px;
+         text-align: center;
+    }
+</style>
+    <div class="choice-class">
         <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
             <div class="container">
                 <div class="form-group">
                     {{form.as_p}}
                 </div>
             </div>
-            <button class="btn btn-group" type="submit"> Edit </button>
+
+            <button class="btn bg-primary" type="submit"> Edit </button>
+
         </form>
-        <form action="{% url 'remove' form.name.value %}">
-            <button type="submit">Delete</button>
-        </form>
+        <div class="but-position">
+            <form action="{% url 'remove' form.name.value %}">
+                <button type="submit" class="btn btn-danger ">Delete</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

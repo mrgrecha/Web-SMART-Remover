@@ -1,14 +1,18 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-<h1>Delete</h1>
-
+<div>
+<div class="container">
+    <div class="row col-lg-offset-14">
 <select id="id_current_trash_bin">
     {% for name in name_list %}
     <option value='{{name}}'>{{name}}</option>
     {% endfor %}
 </select>
-
+        <button class="btn bg-primary" id="delete_button">Delete!</button>
+    </div>
+</div>
+</div>
 <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
             <div class="container">
                 <div class="form-group">
@@ -17,11 +21,7 @@
             </div>
         </form>
 
-<div class="container">
-    <div class="row col-lg-offset-12">
-        <button class="btn btn-danger" id="delete_button">Delete them!</button>
-    </div>
-</div>
+
 <div id="container-tree">
 
 </div>

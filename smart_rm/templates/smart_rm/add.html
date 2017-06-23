@@ -1,12 +1,17 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
-    <div>
+<style>
+    .add-style{
+        height: 500px;
+    }
+</style>
+    <div class="add-style">
         <form method="post" action="" class="form-inline text-center"> {% csrf_token %}
             <div class="container">
                 <div class="form-group">
                     {{form.as_p}}
-                    <button class="btn btn-group" type="submit">Add </button>
+                    <button class="btn btn-primary" type="submit">Add </button>
                 </div>
             </div>
         </form>

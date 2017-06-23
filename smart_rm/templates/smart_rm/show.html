@@ -1,14 +1,25 @@
 {% extends "smart_rm/base.html" %}
-
 {% block content %}
+
+<style>
+    .navbar{
+        margin-bottom: 0;
+    }
+    .choice-class{
+        height: 470px;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: x-large;
+        margin-top: 70px;
+        text-align: center;
+    }
+</style>
         <nav class="navbar navbar-inverse">
             <ul class="nb-top-2">
             {% for name in name_list %}
                 <li class="li-nb-top-2"><a class="li-nb-top-2-a" href="/{{current_page}}/trashBin/{{name}}">{{name}}</a></li>
             {% endfor %}</ul>
         </nav>
-    <div>
-       <p>
+    <div class="choice-class">
            Choose a trash bin for showing files in it!
        </p>
     </div>

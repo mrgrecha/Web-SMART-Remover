@@ -1,8 +1,19 @@
 {% extends "smart_rm/base.html" %}
 
 {% block content %}
+<style>
+    .choice-class{
+        height: 470px;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        margin-top: 70px;
+        text-align: center;
+        font-size: x-large;
+    }
+</style>
+<div class="choice-class">
     <form method="post">{% csrf_token %}
-        Are you sure you want to delete trash "{{ object }}" ?
-        <input type="submit" value="Delete" />
+        <p>Are you sure you want to delete trash "{{ object }}" ?</p>
+        <input class="btn btn-danger" type="submit" value="Delete" />
     </form>
+    </div>
 {% endblock%}}

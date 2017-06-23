@@ -62,7 +62,7 @@ def execute_task(request):
                                                                                                              '').replace(
                                                                                        '[', '').replace(']', '').split(
                                                                                        ', ')])
-    history_instance = History(task=Task.objects.get(id=data['task_id'][0]), state='Done')
+    history_instance = History(files=files, trash_bin=current_trash_bin, name_of_operation=name_of_operation, state='Done')
     history_instance.save()
     print 'History was saved'
     Task.objects.get(id=data['task_id'][0]).delete()
@@ -78,7 +78,8 @@ def execute_regular_task(request):
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
     source.high_level_operations.high_regular_removing(start_folder=start_folder, pattern=pattern, the_trash=my_trash)
-    history_instance = History(regular_task=RegularTask.objects.get(id=data['task_id'][0]), state='Done')
+    history_instance = History(pattern=pattern, start_folder=start_folder, trash_bin=current_trash_bin, name_of_operation='Regular removing',
+                               state='Done')
     history_instance.save()
     RegularTask.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')

@@ -3,12 +3,12 @@
 {% block content %}
 <h1>History</h1>
 {% for post in history_list%}
-    {% if post.task %}
-    <p>Files: {{post.task.files}}, Trash Bin: {{post.task.current_trash_bin}}, State: {{post.state}}</p>
+    {% if post.files%}
+    <p>Files: {{post.files}}, Trash Bin: {{post.trash_bin}}, Operation: {{post.name_of_operation}}, State: {{post.state}}</p>
     {% endif %}
 
-    {% if post.regular_task %}
-        <p>Regular: {{post.regular_task.pattern}}, Start Folder: {{post.regular_task.start_folder}}, Trash Bin: {{post.regular_task.current_trash_bin}}, State: {{post.state}}</p>
+    {% if post.start_folder %}
+        <p>Regular: {{post.pattern}}, Start Folder: {{post.start_folder}}, Trash Bin: {{post.trash_bin}}, State: {{post.state}}</p>
     {% endif %}
 {% endfor %}
 

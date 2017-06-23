@@ -30,12 +30,15 @@ class Task(models.Model):
     current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
     files = models.TextField()
     name_of_operation = models.CharField(max_length=50)
-    hashes = models.TextField(null=True, blank=True)
+    hashes = models.TextField()
 
 class Log(models.Model):
     text = models.TextField()
 
 class History(models.Model):
-    task = models.ForeignKey('Task', null=True, blank=True)
-    regular_task = models.ForeignKey('RegularTask', null=True, blank=True)
+    files = models.TextField(null=True, blank=True)
+    trash_bin = models.CharField(max_length=200)
+    start_folder = models.TextField(null=True, blank=True)
+    pattern = models.TextField(null=True, blank=True)
+    name_of_operation = models.CharField(max_length=100)
     state = models.CharField(max_length=100)

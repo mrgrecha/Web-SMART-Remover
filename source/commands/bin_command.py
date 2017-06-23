@@ -144,7 +144,7 @@ class DFTCommand(Command):
         :param list_of_files:
         :return:
         """
-        self.trash.rootLogger.info("Delete from trash can not be undo")
+        self.trash.rootLogger.info("Removing from trash can not be undo")
 
     @dry_run
     def real_remove_from_trash(self, list_of_files, my_trash):
@@ -154,10 +154,14 @@ class DFTCommand(Command):
         :param my_trash: the instance of trash
         :return:
         """
+
         result_list = []
         for path in list_of_files:
             for index, each_dict in enumerate(my_trash.arr_json_files):
                 if each_dict['hash'] == path:
+
+                    my_trash.rootLogger.debug(each_dict)
+
                     try:
                         shutil.rmtree(os.path.join(my_trash.path_of_trash, str(each_dict['hash'])))
                     except OSError:

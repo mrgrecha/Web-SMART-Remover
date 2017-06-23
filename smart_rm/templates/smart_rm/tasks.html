@@ -28,7 +28,7 @@
     </script><script src="../../static/css/dist/jstree.min.js"></script>
 {% endfor %}
 {% for task in tasks_list%}
-    <p>Files: {{task.files_to_delete}}, Trash Bin: {{task.current_trash_bin}}</p>
+    <p>Files: {{task.files}}, Trash Bin: {{task.current_trash_bin}}, Type: {{task.name_of_operation}}</p>
     <button class="btn btn-danger" id="execute-{{task.id}}">Execute!</button>
     <button class="btn btn-danger" id="delete-{{task.id}}">Delete!</button>
 <script>
@@ -37,8 +37,10 @@ $("#execute-{{task.id}}").on('click', function (event) {
     event.preventDefault();
     var data = {
         trash : current_trash,
-        files : '{{task.files_to_delete}}',
-        task_id : '{{task.id}}'
+        files : '{{task.files}}',
+        task_id : '{{task.id}}',
+        operation : '{{task.name_of_operation}}',
+        hashes : '{{task.hashes}}'
     };
     console.log(data);
             $.post('execute_task', data);

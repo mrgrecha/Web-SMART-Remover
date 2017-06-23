@@ -32,6 +32,7 @@ class Trash(object):
             self.policies = config.get('Section_Custom', 'policies')
             self.silent = config.getboolean('Section_Custom', 'silent')
             self.dried = config.getboolean('Section_Custom', 'dry_run')
+            self.force = True
         else:
             self.path_of_trash = os.path.expanduser('~/.MyTrash')
             self.database = os.path.expanduser('~/.DB.json')

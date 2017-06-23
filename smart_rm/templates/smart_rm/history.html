@@ -4,7 +4,7 @@
 <h1>History</h1>
 {% for post in history_list%}
     {% if post.task %}
-    <p>Files: {{post.task.files_to_delete}}, Trash Bin: {{post.task.current_trash_bin}}, State: {{post.state}}</p>
+    <p>Files: {{post.task.files}}, Trash Bin: {{post.task.current_trash_bin}}, State: {{post.state}}</p>
     {% endif %}
 
     {% if post.regular_task %}

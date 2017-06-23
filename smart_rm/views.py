@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 import config_changing
 import source.src.trash
 import source.high_level_operations
+import source.src.serialization
 
 
 name_list = Trash_bin.objects.all()
@@ -27,7 +28,9 @@ def get_context_data(self, **kwargs):
 def add_task(request):
     data = dict(request.POST)
     current_trash = Trash_bin.objects.get(name=data['trash'][0])
-    task_instance = Task(current_trash_bin=current_trash, files_to_delete=[file.encode('ascii', 'ignore') for file in data['files[]']])
+    task_instance = Task(current_trash_bin=current_trash,
+                         files=[file.encode('ascii', 'ignore') for file in data['files[]']],
+                         name_of_operation='Remove to trash')
     task_instance.save()
     return render(request, 'smart_rm/success.html')
 
@@ -35,13 +38,33 @@ def add_task(request):
 @csrf_exempt
 def execute_task(request):
     data = dict(request.POST)
-    files_to_delete = data['files']
+    name_of_operation = data['operation'][0]
+    files = data['files']
     current_trash_bin = data['trash']
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
-    source.high_level_operations.high_remove([file.encode('ascii', 'ignore') for file in files_to_delete[0].replace('&#39;', '').replace('[', '').replace(']', '').split(', ')], my_trash)
+    print 'Name of operation', name_of_operation
+    if name_of_operation == 'Remove from trash':
+        source.high_level_operations.high_deleting_files_from_trash(the_trash=my_trash,
+                                                                    list_of_files=[file.encode('ascii', 'ignore')[1:] for file in
+                                                 data['hashes'][0].replace('&#39;', '').replace('[', '').replace(']', '').split(
+                                                      ', ')])
+    elif name_of_operation == 'Remove to trash':
+        print 'delete to trash?'
+        source.high_level_operations.high_remove([file.encode('ascii', 'ignore') for file in
+                                                  files[0].replace('&#39;', '').replace('[', '').replace(']', '').split(
+                                                      ', ')], my_trash)
+    elif name_of_operation == 'Recover':
+        source.high_level_operations.high_recover(the_trash=my_trash,
+                                                                    list_of_files=[file.encode('ascii', 'ignore')[1:] for
+                                                                                   file in
+                                                                                   data['hashes'][0].replace('&#39;',
+                                                                                                             '').replace(
+                                                                                       '[', '').replace(']', '').split(
+                                                                                       ', ')])
     history_instance = History(task=Task.objects.get(id=data['task_id'][0]), state='Done')
     history_instance.save()
+    print 'History was saved'
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
 
@@ -88,6 +111,13 @@ def show(request):
     return render(request, 'smart_rm/show.html', locals())
 
 
+def show_trash(request, pk):
+    name_of_database = str(pk) + '.json'
+    path_to_database = os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', name_of_database)
+    with open(path_to_database, 'r'):
+        arr_json_files = source.src.serialization.load_json(path_to_database)
+    return render(request, 'smart_rm/show_trash.html', locals())
+
 def tasks(request):
     current_page = 'tasks'
     name_list = Trash_bin.objects.all()
@@ -96,6 +126,22 @@ def tasks(request):
     return render(request, 'smart_rm/tasks.html', locals())
 
 
+@csrf_exempt
+def recover(request, pk):
+    data = dict(request.POST)
+    task_instance = Task(files=data['names[]'], current_trash_bin=Trash_bin.objects.get(name=pk), hashes=data['hashes[]'], name_of_operation='Recover')
+    task_instance.save()
+    return render(request, 'smart_rm/success.html')
+
+
+@csrf_exempt
+def remove_from_trash(request, pk):
+    data = dict(request.POST)
+    print data
+    task_instance = Task(files=data['names[]'], current_trash_bin=Trash_bin.objects.get(name=pk),
+                         hashes=data['hashes[]'], name_of_operation='Remove from trash')
+    task_instance.save()
+    return render(request, 'smart_rm/success.html')
 
 def history(request):
     current_page = 'history'

@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "smart_rm/base.html" %}
+
+{% block content %}
+    <p>Trash inside!</p>
+
+        <button class="btn btn-danger" id="delete_button">Delete them!</button>
+        <button class="btn btn-danger" id="delete_all_button">Delete all!</button>
+        <button class="btn btn-danger" id="recover_button">Recover them!</button>
+        <button class="btn btn-danger" id="recover_all_button">Recover all!</button>
+    <p></p>
+    {% for file in arr_json_files %}
+        <input class="Checkbox" type="checkbox" id="{{file.hash}}" value="{{file.name}}">
+        <label for="{{file.hash}}">{{file.name}} type: {{file.type}} size: {{file.size}} Bytes</label>
+        <p></p>
+    {% endfor %}
+
+<script>
+$('#delete_button').on('click', function (event) {
+    var array_of_hashes = [];
+    var array_of_names = [];
+    var data = $('.Checkbox:checked').each(function(){
+        array_of_hashes.push($(this).attr('id'));
+        array_of_names.push($(this).val())
+    });
+    console.log(array_of_names, array_of_hashes);
+    $.post('remove_from_trash', {hashes : array_of_hashes, names : array_of_names});
+});
+
+$('#delete_all_button').on('click', function (event) {
+    var array_of_hashes = [];
+    var array_of_names = [];
+    var data = $('.Checkbox').each(function(){
+        array_of_hashes.push($(this).attr('id'));
+        array_of_names.push($(this).val())
+    });
+    console.log(array_of_hashes);
+    $.post('remove_from_trash', {hashes : array_of_hashes, names : array_of_names});
+});
+
+$('#recover_all_button').on('click', function (event) {
+    var array_of_hashes = [];
+    var array_of_names = [];
+    var data = $('.Checkbox').each(function(){
+        array_of_hashes.push($(this).attr('id'));
+        array_of_names.push($(this).val())
+    });
+    console.log(array_of_names, array_of_hashes);
+    $.post('recover_from_trash', {hashes : array_of_hashes, names : array_of_names});
+});
+
+$('#recover_button').on('click', function (event) {
+    var array_of_hashes = [];
+    var array_of_names = [];
+    var data = $('.Checkbox:checked').each(function(){
+        array_of_hashes.push($(this).attr('id'));
+        array_of_names.push($(this).val())
+    });
+    console.log(array_of_hashes);
+    $.post('recover_from_trash', {hashes : array_of_hashes, names : array_of_names});
+});
+
+</script><script src="../../static/css/dist/jstree.min.js"></script>
+{% endblock %}

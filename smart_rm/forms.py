@@ -8,11 +8,13 @@ class AddingForm(forms.ModelForm):
         model = Trash_bin
         exclude = [""]
 
+
 class SettingForm(forms.ModelForm):
 
     class Meta:
         model = Trash_bin
         exclude = [""]
+
 
 class RegularForm(forms.ModelForm):
 

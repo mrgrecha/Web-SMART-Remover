@@ -28,5 +28,3 @@ urlpatterns = [
     url(r'tasks/delete_regular_task', views.delete_regular_task, name='deleting_regular_task'),
 ]
 
-
-#    url(r'^remove/(?P<pk>\w+)/$', views.TrashBinDelete.as_view(), name='deleting'),

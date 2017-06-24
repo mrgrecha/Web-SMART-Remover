@@ -23,7 +23,6 @@ class RFCommand(Command):
 
     def execute(self, list_of_files):
         return self.delete_files(list_of_files, self.trash)
-       # return self.files_to_return
 
     def cancel(self, list_of_files):
         self.trash.rootLogger.info('Cancel for rfc')
@@ -32,7 +31,6 @@ class RFCommand(Command):
 
     @dry_run
     def real_delete(self, files_to_delete, length, my_trash):
-        print 'AAA', files_to_delete
         arr_files = [source.src.file_object.FileObject() for i in xrange(0, length)]
 
         for index, each_file in enumerate(files_to_delete):
@@ -51,12 +49,10 @@ class RFCommand(Command):
 
     def delete_files(self, list_of_files, my_trash):
         """Delete a list of files with checking for folders"""
-        print 'BBBB', list_of_files
         list_for_return = []
         try:
             checked_list = source.src.verification.check_for_files_and_links(list_of_files)
             length = len(checked_list)
-            my_trash.rootLogger.info(checked_list)
             list_for_return = self.real_delete(checked_list, length, my_trash)
             for removing_file in checked_list:
                 my_trash.rootLogger.info('Removing ' + removing_file + ' to trash')
@@ -114,28 +110,27 @@ class RDCommand(Command):
         :param list_of_dirs:
         :return:
         """
-        try:
-            checked_list_of_dirs = source.src.verification.check_for_dir(list_of_dirs, my_trash.path_of_trash)
-            length = len(checked_list_of_dirs)
-            list_for_return = self.real_delete_dir(checked_list_of_dirs, length, my_trash)
-            for each_dir in checked_list_of_dirs:
-                my_trash.rootLogger.info('Removing directory ' + each_dir + ' to trash')
+        checked_list_of_dirs = source.src.verification.check_for_dir(list_of_dirs, my_trash.path_of_trash)
+        length = len(checked_list_of_dirs)
+        list_for_return = self.real_delete_dir(checked_list_of_dirs, length, my_trash)
+        for each_dir in checked_list_of_dirs:
+            my_trash.rootLogger.info('Removing directory ' + each_dir + ' to trash')
 
-        except source.src.my_exceptions.NotSuchFileError as e:
-            logging.error('Error:' + str(e))
-            sys.exit(1)
-
-        except source.src.my_exceptions.PermissionError as e:
-            logging.error('Error:' + str(e))
-            sys.exit(2)
-
-        except source.src.my_exceptions.NotFileError as e:
-            logging.error('Error:' + str(e))
-            sys.exit(3)
-
-        except source.src.my_exceptions.RemoveError as e:
-            logging.error('Error:' + str(e) + '. It is a trash folder.')
-            sys.exit(4)
+        # except source.src.my_exceptions.NotSuchFileError as e:
+        #     logging.error('Error:' + str(e))
+        #     sys.exit(1)
+        #
+        # except source.src.my_exceptions.PermissionError as e:
+        #     logging.error('Error:' + str(e))
+        #     sys.exit(2)
+        #
+        # except source.src.my_exceptions.NotFileError as e:
+        #     logging.error('Error:' + str(e))
+        #     sys.exit(3)
+        #
+        # except source.src.my_exceptions.RemoveError as e:
+        #     logging.error('Error:' + str(e) + '. It is a trash folder.')
+        #     sys.exit(4)
 
         return list_for_return
 

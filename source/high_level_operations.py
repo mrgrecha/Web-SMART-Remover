@@ -1,15 +1,14 @@
-import src.trash as trash
 import commands.remove_command
 import src.dividing
 import commands.bin_command
 import multiprocessing
 import src.serialization
 import os
-
+import src.verification
 
 
 def high_remove_files(list_of_files, the_trash):
-    print 'fiiiles:', list_of_files
+    src.verification.check_for_files_and_links(list_of_files)
     remove_file_command = commands.remove_command.RFCommand(the_trash)
     processes = []
     manager = multiprocessing.Manager()
@@ -35,8 +34,9 @@ def high_remove_files(list_of_files, the_trash):
     the_trash.arr_json_files += manager_list
     src.serialization.push_json(the_trash.arr_json_files, the_trash.database)
 
+
 def high_remove_dirs(list_of_dirs, the_trash):
-    print 'Dirs: ', list_of_dirs
+    src.verification.check_for_dir(list_of_dirs, the_trash.path_of_trash)
     processes = []
     remove_directory_command = commands.remove_command.RDCommand(the_trash)
     manager = multiprocessing.Manager()
@@ -63,6 +63,7 @@ def high_remove_dirs(list_of_dirs, the_trash):
     the_trash.arr_json_files += manager_list
     src.serialization.push_json(the_trash.arr_json_files, the_trash.database)
 
+
 def high_remove(list_of_files_and_dirs, the_trash):
     files = []
     dirs = []
@@ -80,7 +81,6 @@ def high_regular_removing(start_folder, pattern, the_trash):
     files, dirs = remove_regex_command.execute(pattern)
     high_remove_files(files, the_trash)
     high_remove_dirs(dirs, the_trash)
-
 
 
 def high_recover(list_of_files, the_trash):
@@ -115,8 +115,6 @@ def high_recover(list_of_files, the_trash):
     src.serialization.push_json(the_trash.arr_json_files, the_trash.database)
 
 
-
-
 def high_deleting_files_from_trash(list_of_files, the_trash):
     delete_command = commands.bin_command.DFTCommand(the_trash)
     processes = []
@@ -127,6 +125,7 @@ def high_deleting_files_from_trash(list_of_files, the_trash):
         res = src.dividing.parallel_dividing([list_of_files])
     else:
         res = src.dividing.parallel_dividing(list_of_files)
+
     def help_function_for_deleting_files_from_trash(list_for_manager, list_for_removing):
         list_of_objects_of_removed_files = delete_command.execute(list_for_removing)
         for obj in list_of_objects_of_removed_files:
@@ -150,4 +149,4 @@ def high_deleting_files_from_trash(list_of_files, the_trash):
 
 
 if __name__ == '__main__':
-   pass
+    pass

@@ -21,10 +21,12 @@ class Trash_bin(models.Model):
     def get_data(self):
         return self.path_of_trash
 
+
 class RegularTask(models.Model):
     regular_expression = models.CharField(max_length=200)
     start_folder = models.CharField(max_length=200)
     current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
+
 
 class Task(models.Model):
     current_trash_bin = models.ForeignKey('Trash_bin', on_delete=models.CASCADE)
@@ -32,8 +34,10 @@ class Task(models.Model):
     name_of_operation = models.CharField(max_length=50)
     hashes = models.TextField()
 
+
 class Log(models.Model):
     text = models.TextField()
+
 
 class History(models.Model):
     files = models.TextField(null=True, blank=True)

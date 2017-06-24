@@ -28,10 +28,14 @@ def remove_trash_bin(name_of_trash_bin):
     config = ConfigParser.RawConfigParser()
     config.read(path_of_config)
     path_of_trash_bin = os.path.expanduser(config.get('Section_Custom', 'path'))
-    os.remove(path_of_config)
-    # os.remove(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', name_of_trash_bin.get_name() + '.json'))
-    # shutil.rmtree(path_of_trash_bin + '_' + name_of_trash_bin.get_name())
-
+    try:
+        os.remove(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', name_of_trash_bin.get_name() + '.json'))
+    except OSError:
+        pass
+    try:
+        shutil.rmtree(path_of_trash_bin)
+    except OSError:
+        pass
 
 if __name__ == '__main__':
   pass

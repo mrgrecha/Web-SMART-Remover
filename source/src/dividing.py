@@ -1,6 +1,5 @@
 def parallel_dividing(elems, force_dividing=False):
-    print 'Elements:', elems
-    max_number_of_elements_for_process = 2
+    max_number_of_elements_for_process = 4
     len_of_list_of_elems = len(elems)
     number_of_processes = len_of_list_of_elems / max_number_of_elements_for_process + 1
     processes = []
@@ -13,7 +12,6 @@ def parallel_dividing(elems, force_dividing=False):
         processes = [elems[1:(len_of_list_of_elems/2)], elems[(len_of_list_of_elems/2):]]
     else:
         processes = elems
-    print 'Proccess:', processes
     return processes
 
 # if __name__ == '__main__':

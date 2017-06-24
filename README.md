@@ -14,6 +14,7 @@
 
 * $ python preparation.py
 * $ pip install -r requirements.txt 
+* $ python manage.py migrate
 
 ### How to run? ###
 

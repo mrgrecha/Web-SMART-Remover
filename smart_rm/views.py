@@ -14,15 +14,19 @@ import source.high_level_operations
 import source.src.serialization
 
 
-name_list = Trash_bin.objects.all()
-some_name = 'dimas'
-
-
-def get_context_data(self, **kwargs):
-    data = super(CreateView, self).get_context_data(**kwargs)
-    data['name_list'] = Trash_bin.objects.all()
-    return data
-
+def clean_list(some_list, key):
+    if key:
+        x = [file.encode('ascii', 'ignore')[1:] for file in
+         some_list[key][0].replace('&#39;', '').replace('[', '').replace(']', '').split(
+            ', ')]
+        print 'XXX', x
+        return x
+    else:
+        y =  [file.encode('ascii', 'ignore') for file in
+        some_list[0].replace('&#39;', '').replace('[', '').replace(']', '').split(
+             ', ')]
+        print 'YYY', y
+        return y
 
 @csrf_exempt
 def add_task(request):
@@ -44,26 +48,32 @@ def execute_task(request):
     config_name = 'config_of_' + current_trash_bin[0] + '.cfg'
     my_trash = source.src.trash.Trash(os.path.join(os.path.expanduser('~'), '.Configs_for_web_rm', config_name))
     print 'Name of operation', name_of_operation
+    status = 'Done'
     if name_of_operation == 'Remove from trash':
-        source.high_level_operations.high_deleting_files_from_trash(the_trash=my_trash,
-                                                                    list_of_files=[file.encode('ascii', 'ignore')[1:] for file in
-                                                 data['hashes'][0].replace('&#39;', '').replace('[', '').replace(']', '').split(
-                                                      ', ')])
+        try:
+            source.high_level_operations.high_deleting_files_from_trash(the_trash=my_trash,
+                                                                        list_of_files=clean_list(data, 'hashes'))
+            #TODO: for each case add except with status/ make code better/ fix bug with remove file
+        except:
+            pass
+        finally:
+            history_instance = History(files=clean_list(data, 'hashes'), trash_bin=current_trash_bin,
+                                       name_of_operation=name_of_operation,
+                                       state=status)
+            history_instance.save()
     elif name_of_operation == 'Remove to trash':
-        print 'delete to trash?'
-        source.high_level_operations.high_remove([file.encode('ascii', 'ignore') for file in
-                                                  files[0].replace('&#39;', '').replace('[', '').replace(']', '').split(
-                                                      ', ')], my_trash)
+        source.high_level_operations.high_remove(clean_list(files, False), my_trash)
+        history_instance = History(files=files, trash_bin=current_trash_bin, name_of_operation=name_of_operation,
+                                   state='Done')
+        history_instance.save()
+
     elif name_of_operation == 'Recover':
         source.high_level_operations.high_recover(the_trash=my_trash,
-                                                                    list_of_files=[file.encode('ascii', 'ignore')[1:] for
-                                                                                   file in
-                                                                                   data['hashes'][0].replace('&#39;',
-                                                                                                             '').replace(
-                                                                                       '[', '').replace(']', '').split(
-                                                                                       ', ')])
-    history_instance = History(files=files, trash_bin=current_trash_bin, name_of_operation=name_of_operation, state='Done')
-    history_instance.save()
+                                                                    list_of_files=clean_list(data, 'hashes'))
+        history_instance = History(files=files, trash_bin=current_trash_bin, name_of_operation=name_of_operation,
+                                   state='Done')
+        history_instance.save()
+
     print 'History was saved'
     Task.objects.get(id=data['task_id'][0]).delete()
     return render(request, 'smart_rm/success.html')
@@ -161,10 +171,6 @@ def regex(request):
     return render(request, 'smart_rm/regex.html', locals())
 
 
-def logs(request):
-    current_page = 'logs'
-    name_list = Trash_bin.objects.all()
-    return render(request, 'smart_rm/logs.html', locals())
 
 
 def get_info_for_file_system(request):

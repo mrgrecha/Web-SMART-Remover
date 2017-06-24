@@ -154,14 +154,11 @@ class DFTCommand(Command):
         :param my_trash: the instance of trash
         :return:
         """
-
+        my_trash.rootLogger.debug(list_of_files)
         result_list = []
         for path in list_of_files:
             for index, each_dict in enumerate(my_trash.arr_json_files):
                 if each_dict['hash'] == path:
-
-                    my_trash.rootLogger.debug(each_dict)
-
                     try:
                         shutil.rmtree(os.path.join(my_trash.path_of_trash, str(each_dict['hash'])))
                     except OSError:

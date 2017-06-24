@@ -32,6 +32,7 @@ class RFCommand(Command):
 
     @dry_run
     def real_delete(self, files_to_delete, length, my_trash):
+        print 'AAA', files_to_delete
         arr_files = [source.src.file_object.FileObject() for i in xrange(0, length)]
 
         for index, each_file in enumerate(files_to_delete):
@@ -50,6 +51,7 @@ class RFCommand(Command):
 
     def delete_files(self, list_of_files, my_trash):
         """Delete a list of files with checking for folders"""
+        print 'BBBB', list_of_files
         list_for_return = []
         try:
             checked_list = source.src.verification.check_for_files_and_links(list_of_files)

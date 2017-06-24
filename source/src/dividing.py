@@ -13,7 +13,3 @@ def parallel_dividing(elems, force_dividing=False):
     else:
         processes = elems
     return processes
-
-# if __name__ == '__main__':
-#     res = parallel_dividing(range(10), force_dividing=True)
-#     print res

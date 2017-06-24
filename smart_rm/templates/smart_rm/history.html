@@ -1,5 +1,5 @@
 {% extends "smart_rm/base.html" %}
-
+{% load my_template_tag %}
 {% block content %}
 <table class="table table-striped">
     <thead>
@@ -16,11 +16,11 @@
 {% for post in history_list%}
     {% if post.files%}
     <tr>
-        <td>{{post.files}}</td>
+        <td>{{post.files | cut_redundant:"[']"   }}</td>
         <td>-</td>
         <td>-</td>
         <td>{{post.name_of_operation}}</td>
-        <td>{{post.trash_bin}}</td>
+        <td>{{post.trash_bin | get_trash_name}}</td>
         <td>{{post.state}}</td>
     </tr>
     {% endif %}
@@ -31,7 +31,7 @@
         <td>{{post.pattern}}</td>
         <td>{{post.start_folder}}</td>
         <td>{{post.name_of_operation}}</td>
-        <td>{{post.trash_bin}}</td>
+        <td>{{post.trash_bin| get_trash_name}} </td>
         <td>{{post.state}}</td>
     </tr>
     {% endif %}

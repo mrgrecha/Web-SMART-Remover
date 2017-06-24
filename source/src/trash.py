@@ -171,20 +171,7 @@ class Trash(object):
             answer = user_input.UserInput()
             list_of_elems = e.get_list()
             for elem in list_of_elems[:]:
-                self.rootLogger.error('Delete %s?' % termcolor.colored(elem, 'red'))
-                answer.ask()
-                if answer.state == 'yes':
-                    self.delete_for_name_from_trash([elem])
-                    list_of_elems.remove(elem)
-                elif answer.state == 'no':
-                    list_of_elems.remove(elem)
-                elif answer.state == 'yes_to_all':
-                    self.delete_for_name_from_trash(list_of_elems)
-                    break
-                elif answer.state == 'no_to_all':
-                    break
-                elif answer.state == 'cancel':
-                    break
+                self.delete_for_name_from_trash(list_of_elems)
 
         except my_exceptions.DatabaseSetError as e:
             list_of_elems = e.get_list()

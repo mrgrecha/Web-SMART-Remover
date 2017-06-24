@@ -1,5 +1,6 @@
 {% extends "smart_rm/base.html" %}
 
+{% load my_template_tag %}
 {% block content %}
 <table class="table table-striped">
     <thead>
@@ -62,7 +63,7 @@
         <tbody>
 {% for task in tasks_list%}
 <tr>
-            <td>{{task.files}}</td>
+            <td>{{task.files| cut_redundant:"[']"}}</td>
             <td>{{task.current_trash_bin}}</td>
             <td>{{task.name_of_operation}}</td>
             <td>

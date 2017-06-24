@@ -165,6 +165,8 @@ def remove_from_trash(request, pk):
 def history(request):
     current_page = 'history'
     history_list = reversed(History.objects.all())
+
+
     return render(request, 'smart_rm/history.html', locals())
 
 
@@ -271,7 +273,7 @@ class TrashBinUpdate(UpdateView):
                                         max_num=int(kwargs['data']['number']), policies=kwargs['data']['policies'],
                                         dried=current_dried, silent=current_silent)
         except KeyError:
-            pas
+            pass
         return kwargs
 
 

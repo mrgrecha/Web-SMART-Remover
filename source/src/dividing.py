@@ -9,7 +9,7 @@ def parallel_dividing(elems, force_dividing=False):
         for index, elem in enumerate(elems):
             processes[index % number_of_processes].append(elem)
     elif len_of_list_of_elems < max_number_of_elements_for_process and force_dividing is True:
-        processes = [elems[1:(len_of_list_of_elems/2)], elems[(len_of_list_of_elems/2):]]
+        processes = [elems[0:(len_of_list_of_elems/2)], elems[(len_of_list_of_elems/2):]]
     else:
         processes = elems
     return processes

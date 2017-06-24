@@ -15,4 +15,5 @@ class CountPolicy(Policy):
         if len(os.listdir(trash.path_of_trash)) <= trash.max_number:
             return []
         else:
+            print 'Yeah'
             return os.listdir(trash.path_of_trash)

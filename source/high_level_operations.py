@@ -91,7 +91,7 @@ def high_recover(list_of_files, the_trash):
     if len(list_of_files) == 1:
         res = src.dividing.parallel_dividing([list_of_files])
     else:
-        res = src.dividing.parallel_dividing(list_of_files)
+        res = src.dividing.parallel_dividing(list_of_files, force_dividing=True)
 
     def help_function_for_recovering(list_for_manager, list_for_recovering):
         list_of_objects_of_recovered_files = recover_command.execute(list_for_recovering)

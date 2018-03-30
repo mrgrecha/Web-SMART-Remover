@@ -21,4 +21,3 @@
 * $ python manage.py runserver
 
 Made by Dima Grechko.
-Group 553504.
